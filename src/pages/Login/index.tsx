@@ -26,11 +26,13 @@ function Login() {
                                     VOLTAR
                                 </Button>
                             </Link>
-                            <Button
-                            color="white.50"
-                            bg="green.50"
-                            colorScheme="green"
-                            >ENVIAR</Button>
+                            <Link to="/dashboard">
+                                <Button
+                                color="white.50"
+                                bg="green.50"
+                                colorScheme="green"
+                                >ENVIAR</Button>
+                            </Link>
                         </ButtonGroup>
                     </VStack>
                 </CardBody>
