@@ -76,6 +76,7 @@
     width: 80%;
 
     flex: 1;
+
 }
 
 .complaint_registration .student_registration {
@@ -83,12 +84,18 @@
 }
 
 .complaint_registration .report_description {
-    min-height: 40%;
+    min-height: 200px;
+}
+
+
+.complaint_registration .report_place {
+    width: 30%;
 }
 
 .report_description textarea {
     height: 100%;
 }
+
 
 .form_buttons {
     grid-column-start: 1;
@@ -97,6 +104,10 @@
     padding: 30px 80px 0px 80px;
     display: flex;
     justify-content: space-between;
+}
+
+.input_error_message {
+    text-align: start;
 }
 
 .response_message {
