@@ -15,7 +15,7 @@ import DomesticViolenceCard from "./DomesticViolenceCard";
 
 const Header = () => {
 
-    const {violenceType} = useContext(DenunciaContext);
+    const { violenceType } = useContext(DenunciaContext);
 
     return (
         <Box className={styles.banner} style={{
@@ -26,9 +26,9 @@ const Header = () => {
             <Divider orientation="horizontal" />
             <Text fontSize="lg" className={styles.banner_text}>
                 {
-                    violenceType === ViolenceType.School ? 
-                    "Aqui é um espaço livre e seguro para você denunciar qualquer maus-tratos que tenha ocorrido na sua escola." :
-                    "Sentimos muito que isso esteja acontecendo com você. Por favor, deixe seu relato e número de um parente confiável."
+                    violenceType === ViolenceType.School ?
+                        "Aqui é um espaço livre e seguro para você denunciar qualquer maus-tratos que tenha ocorrido na sua escola." :
+                        "Sentimos muito que isso esteja acontecendo com você. Por favor, deixe seu relato e número de um parente confiável."
                 }
             </Text>
         </Box>
@@ -36,36 +36,8 @@ const Header = () => {
 }
 
 const Display = () => {
-    const [post, setPost] = useState({
-        relato:'',
-        lugar:'',
-        v_fisica: "no",
-        v_verbal: "no",
-        bullying: "no",
-        assedio: "no",
-        recorrencia:'',
-        data_ocorrido:'',
-    
-    })
-    const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.target;
-        setPost((prevPost) => ({
-            ...prevPost,
-            [name]: value,
-        }));
-    };
-    function handleSubmit(event:React.FormEvent<HTMLFormElement>){
-    
-    console.log(post)
-    event.preventDefault()
-    
-    
-    axios.post('https://backendd-vk3y.onrender.com/api/v1/denuncia/add', post).then(response => console.log(response)).
-    catch(err => console.log(err))
-    }
-    
-    
-    const {violenceType, setViolenceType, wasFormSent} = useContext(DenunciaContext);
+
+    const { violenceType, setViolenceType, wasFormSent } = useContext(DenunciaContext);
 
     if (violenceType == ViolenceType.School) {
         return <SchoolViolenceCard />
@@ -79,18 +51,18 @@ const ResponseMessage = () => {
         <Stack spacing={4} className={styles.response_message}>
             <Heading>Obrigada por sua denúncia!</Heading>
             <Text>
-            Agradecemos pela sua coragem e determinação para deixarmos nosso ambiente escolar ainda melhor! 
-            VigiAluno é um ambiente seguro, as ações que tomaremos serão em completo sigilo.
+                Agradecemos pela sua coragem e determinação para deixarmos nosso ambiente escolar ainda melhor!
+                VigiAluno é um ambiente seguro, as ações que tomaremos serão em completo sigilo.
             </Text>
             <ButtonGroup className={styles.response_message_buttons}>
                 <Link to="/">
                     <Button
-                        color="white.50" 
-                        bg="pink.50" 
-                        _hover={{bgColor: "pink.100"}} 
-                        _active={{bgColor: "pink.200"}}
-                        >
-                            VOLTAR
+                        color="white.50"
+                        bg="pink.50"
+                        _hover={{ bgColor: "pink.100" }}
+                        _active={{ bgColor: "pink.200" }}
+                    >
+                        VOLTAR
                     </Button>
                 </Link>
             </ButtonGroup>
@@ -108,14 +80,14 @@ function FazerDenuncia() {
 
     return (
         <div className={styles.container}>
-            <DenunciaContext.Provider value={{violenceType, setViolenceType, formSent, wasFormSent}}>
+            <DenunciaContext.Provider value={{ violenceType, setViolenceType, formSent, wasFormSent }}>
                 <Header />
-                
+
                 {
-                    formSent ? 
-                    <ResponseMessage />
-                    :
-                    <Display />
+                    formSent ?
+                        <ResponseMessage />
+                        :
+                        <Display />
                 }
 
             </DenunciaContext.Provider>
