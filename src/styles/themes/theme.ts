@@ -13,6 +13,9 @@ const theme = extendTheme({
     white: {
       "50": "#FFFFFF",
       "100": "#F5F5F5"
+    },
+    purple: {
+      "50": "#464555"
     }
   },
   components: {
@@ -24,6 +27,11 @@ const theme = extendTheme({
             solid: {
                 bg: 'white',
                 padding: "10px 47px 10px 47px",
+            },
+            icon: {
+              bg: 'transparent',
+              padding: "0px 0px 0px 0px",
+              width: '30px'
             }
         }
     },

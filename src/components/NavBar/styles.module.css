@@ -9,12 +9,26 @@
 }
 
 .container_logo {
-    width: fit-content;
     padding: 7px 0px;
 }
 
-.logo {
-    width: 100%;
+.container_menu_logo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 255px;
+}
+
+.menu_icon {
     height: 40px;
-    /* background-color: green; */
+}
+
+.menu_button {
+    padding: 0;
+}
+
+.logo {
+    height: 40px;
+    width: fit-content;
 }

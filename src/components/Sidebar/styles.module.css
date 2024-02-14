@@ -1,0 +1,27 @@
+.sidebar_container {
+    position: absolute;
+    left: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    background-color: var(--chakra-colors-purple-50);
+    width: 100%;
+    height: 100%;
+}
+
+.slide {
+    max-width: 25%;
+}
+
+.logo {
+    width: 100%;
+    height: 40px;
+}
+
+.logo_container {
+    width: fit-content;
+    padding: 7px 0px;
+    background-color: orange;
+}

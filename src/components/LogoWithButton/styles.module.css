@@ -1,0 +1,21 @@
+.container {
+    background-color: aquamarine;
+    height: 50px;
+
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    height: 100%;
+    width: fit-content;
+}
+
+.button {
+    height: 100%;
+}
+
+.button_icon {
+    height: 100%;
+    width: fit-content;
+}
