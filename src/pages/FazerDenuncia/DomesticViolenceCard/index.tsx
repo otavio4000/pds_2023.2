@@ -16,6 +16,7 @@ import {
     FormErrorMessage,
     useToast,
 } from "@chakra-ui/react";
+
 import api from "services/api";
 import { useForm } from "react-hook-form";
 import { ViolenceType } from "enums/violencetype";
@@ -23,9 +24,10 @@ import { DenunciaContext } from "context/DenunciaContext";
 import { useContext, useState } from "react";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import Modal from 'react-modal';
 import { DenunciaRequest } from "../fazerdenuncia.types";
 
-import Modal from 'react-modal';
+
 
 const schema = yup.object().shape({
     matricula: yup.number().typeError("Por favor, insira um número de matrícula.").required("Por favor, insira um número de matrícula."),
