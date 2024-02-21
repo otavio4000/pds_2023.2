@@ -1,5 +1,6 @@
 import { ReactComponent as Logo } from "assets/images/vigialuno-logo.svg";
-import { ReactComponent as MenuIcon } from "assets/icons/hamburger-menu-svgrepo-com.svg";
+import IconButton from "components/IconButton";
+import { ReactComponent as MenuButton } from "assets/icons/hamburger-menu-svgrepo-com.svg";
 import { Link } from "react-router-dom";
 import styles from "./styles.module.css";
 import { Button } from "@chakra-ui/react";
@@ -8,13 +9,14 @@ import { useState, useEffect } from "react";
 import SideBar from "components/Sidebar";
 import axios from "axios";
 import { useDisclosure } from "@chakra-ui/react";
-import LogoWithButton from "components/LogoWithButton";
 
 function NavBar() {
     const [token, setToken] = useState<string>(() => localStorage.getItem('token') || '');
     const [redirected, setRedirected] = useState(false);
-    const { isOpen, onOpen, onClose, onToggle } = useDisclosure();
+    const { isOpen, onToggle } = useDisclosure();
+
     const location = useLocation();
+    const path = location.pathname;
 
     const logout = () => {
         localStorage.removeItem('token');
@@ -40,25 +42,30 @@ function NavBar() {
         <>
 
             <div className={styles.container}
-                style={location.pathname === "/login" ? { position: "absolute" } : { position: "unset" }}
+                // style={path === "/login" ? { position: "absolute" } : { position: "unset" }}
             >   
-                <LogoWithButton onOpen={onOpen} onClose={onClose} />
-                {token && location.pathname !== "/login" &&
+            <div className={styles.logo_controls}>
+                { (path === "/dashboard" || path === "/students") && <IconButton icon={MenuButton} handleClick={onToggle} /> }
+                <Link to="/" className={styles.container_logo}>
+                    <Logo className={styles.logo} />
+                </Link>
+            </div>
+                {token && path !== "/login" &&
                     <Button
-                        onClick={logout}
-                        bg="green.50"
-                        colorScheme="green"
-                        style={{
-                            padding: "2px 12px"
-                        }}
-                        type="submit"
+                    onClick={logout}
+                    bg="green.50"
+                    colorScheme="green"
+                    style={{
+                        padding: "2px 12px"
+                    }}
+                    type="submit"
                     >
                         Logout
                     </Button>
                 }
             </div>
-
-            <SideBar isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
+            
+            { (path === "/dashboard" || path === "/students") && <SideBar isOpen={isOpen} onToggle={onToggle}/> }
         </>
     );
 }

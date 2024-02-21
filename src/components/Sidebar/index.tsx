@@ -1,35 +1,45 @@
+import Overlay from "components/Overlay";
 import styles from "./styles.module.css";
-import LogoWithButton from "components/LogoWithButton";
-
+import PathButton from "./components/PathButton";
+import { ReactComponent as PieChart } from "assets/icons/graph-pie-svgrepo-com.svg";
+import { ReactComponent as Student } from "assets/icons/user-svgrepo-com.svg";
+import { ReactComponent as Complaint } from "assets/icons/complaint-svgrepo-com.svg";
+import { useLocation } from "react-router-dom";
 import {
     Slide,
-    Button,
-    Fade
-  } from '@chakra-ui/react'
+} from '@chakra-ui/react'
 
 const SideBar = (props: {
     isOpen: boolean,
-    onOpen: () => void,
-    onClose: () => void
+    onToggle: () => void,
 }) => {
 
-    const { isOpen, onOpen, onClose } = props;
+    const location = useLocation();
+    const path = location.pathname;
+
+    const { isOpen, onToggle } = props;
 
     return (
-        <Slide
-        in={isOpen}
-        style={{zIndex: 10}}
-        direction="left"
-        className={styles.slide}
-        >
-            <div className={styles.sidebar_container}>
-                <LogoWithButton onOpen={onOpen} onClose={onClose} /> 
+        <>
+            <Slide
+                in={isOpen}
+                style={{ zIndex: 10 }}
+                direction="left"
+                className={styles.slide}
+                onClick={(event) => event.stopPropagation()}
+            >
+                <div className={styles.sidebar_container}>
 
-                <p>Aqui tem um texto e blablabla</p>
-                <br />
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Animi aliquam ducimus odio, veniam est sit molestias minima mollitia, alias ipsa corrupti quidem, voluptatem recusandae impedit voluptas hic nihil quos laboriosam?
-            </div>
-        </Slide>
+                    <PathButton linkTo="/dashboard" pathName={"Denúncias"} icon={Complaint} selected={path === "/dashboard"}/>
+                    {/* <PathButton pathName={"Estatísticas"} icon={PieChart} selected={path === "/stats"}/> */}
+                    <PathButton linkTo="/students" pathName={"Alunos"} icon={Student} selected={path === "/students"}/>
+
+
+                </div>
+            </Slide>
+            <Overlay {...props} />
+
+        </>
 
     )
 

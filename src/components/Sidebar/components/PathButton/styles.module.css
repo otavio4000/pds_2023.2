@@ -1,0 +1,15 @@
+.button_container {
+    width: 100%;
+}
+
+.button {
+    background-color: var(--chakra-colors-purple-50);
+
+    width: 90%;
+    justify-content: flex-start;
+
+    font-weight: 200;
+    color: white;
+
+    padding: 0px 16px;
+}
