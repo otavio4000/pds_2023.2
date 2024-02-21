@@ -28,6 +28,7 @@ function App() {
                   <Route path='/login' element={<Login />} />
                   <Route path='/denuncia' element={<FazerDenuncia />} />
                   <Route path='/dashboard' element={<Dashboard />} />
+                  <Route path='/students' element={<Dashboard />} />
                 </Routes>
               </>
             } />
@@ -37,37 +38,6 @@ function App() {
     </ChakraProvider>
   );
 }
-
-
-
-
-// export type Title = {
-//   matricula: number;
-//   relato : string;
-//   id: number;
-//   body: string;
-//   title: string;
-
-// };
-
-// function App() {
-// const [titles, setTitles] = useState<Title[] | null>()
-// useEffect(()=> {
-//   const url = 'https://backendd-vk3y.onrender.com/';
-
-
-//   axios.get(url).then((response)=> {
-//     setTitles(response.data);
-//   });
-// },[]);
-
-// return <div className="App">
-//   { titles ? titles.map((title) =>{
-//     return <p>{title.relato}</p>
-//   }) :null}
-// </div>
-// ;
-// }
 
 export default App;
 
