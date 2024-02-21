@@ -15,14 +15,16 @@ const theme = extendTheme({
       "100": "#F5F5F5"
     },
     purple: {
-      "50": "#464555"
+      "50": "#464555",
+      "100": "#3F3E4D",
+      "200": "#33323F"
     }
   },
   components: {
     Button: {
-        baseStyle: {
-            paddingLeft: '100'
-        },
+        // baseStyle: {
+        //     paddingLeft: '100'
+        // },
         variants: {
             solid: {
                 bg: 'white',
