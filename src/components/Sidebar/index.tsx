@@ -37,7 +37,7 @@ const SideBar = (props: {
 
                 </div>
             </Slide>
-            <Overlay {...props} />
+            <Overlay onClickFunction={onToggle} isOpen={isOpen} />
 
         </>
 

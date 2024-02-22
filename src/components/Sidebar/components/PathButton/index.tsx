@@ -17,10 +17,15 @@ const PathButton = (props: {
             leftIcon={<Icon width="30" style={
                 { fill: selected ? "white" : ""}
             }/>} 
+            bg={"purple.50"}
+            color={"white"}
             _hover={{bgColor: "purple.100"}} 
             _active={{bgColor: "purple.200"}}
             style={{
-                fontWeight: selected ? 800 : "inherit"
+                fontWeight: selected ? 800 : "inherit",
+                justifyContent: "flex-start",
+                padding: "7px 16px",
+                borderRadius: "0"
             }}
             >
                 { pathName }

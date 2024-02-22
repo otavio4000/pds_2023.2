@@ -3,25 +3,24 @@ import styles from "./styles.module.css";
 
 const Overlay = (
     props: {
-        handleClick?: () => void,
-        isOpen: boolean
+        onClickFunction?: () => void,
+        isOpen: boolean,
     }
     ) => {
 
 
-    const { handleClick, isOpen } = props; 
+    const { onClickFunction, isOpen } = props; 
 
-    const handleClick2 = (event: React.MouseEvent) => {
+    const handleClick = () => {
 
-        if (handleClick) handleClick(); 
-        console.log("Overlay was clicked")
+        console.log(onClickFunction)
 
-
+        if (onClickFunction) onClickFunction(); 
     }
 
     if (isOpen) {
         return (
-            <div className={styles.overlay} onClick={(e) => handleClick ? handleClick2(e) : () => {}}>
+            <div className={styles.overlay} onClick={handleClick}>
             </div>
         )
     }
