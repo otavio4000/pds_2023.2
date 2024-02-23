@@ -26,7 +26,13 @@ function Login() {
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        
+
+        // APENAS PARA MOCKAR A AUTORIZAÇÃO:
+        if (post.username == "pai" && post.password == "pai") {
+            localStorage.setItem("user_type", "pai");
+            navigate("/dashboard");
+        }
+
     
         api.post('/authentication/token/', post)
             .then(response => {
@@ -40,8 +46,9 @@ function Login() {
                 const payload = JSON.parse(atob(token.split('.')[1]));
                 const userId = payload.user_id;
                 localStorage.setItem('user_id', userId);
-                
-                // navigate("/dashboard");
+                localStorage.setItem("user_type", "coord");
+
+                navigate("/dashboard");
             })
             .catch(err => {
                 console.log(err);
