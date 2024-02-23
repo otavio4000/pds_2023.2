@@ -7,7 +7,7 @@ import { Button } from "@chakra-ui/react";
 import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import SideBar from "components/Sidebar";
-import axios from "axios";
+import api from "services/api";
 import { useDisclosure } from "@chakra-ui/react";
 
 function NavBar() {
@@ -26,9 +26,7 @@ function NavBar() {
     };
     const validToken = async () => {
         try {
-
-
-            const response = await axios.post('https://backendd-vk3y.onrender.com/api/v1/authentication/token/verify/', { token });
+            const response = await api.post('/authentication/token/verify/', { token });
 
             return response // 
         } catch (error) {

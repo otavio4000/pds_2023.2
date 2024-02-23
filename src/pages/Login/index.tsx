@@ -1,20 +1,21 @@
 import wave from "assets/images/wave-1.svg";
 import styles from "./styles.module.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Card, VStack, Input, CardBody, Avatar, Button, ButtonGroup } from "@chakra-ui/react";
-import axios from "axios";
+import api from "services/api";
 import { useState, createContext, useContext } from "react";
 
 
 function Login() {
 
+    const navigate = useNavigate();
     
     const [post, setPost] = useState({
         username:'',
         password:''
-    
     })
     const [token, setToken] = useState<string>('');
+
     const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
         setPost((prevPost) => ({
@@ -22,27 +23,29 @@ function Login() {
             [name]: value,
         }));
     };
-    function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         
     
-        axios.post('https://backendd-vk3y.onrender.com/api/v1/authentication/token/', post)
+        api.post('/authentication/token/', post)
             .then(response => {
-                const  token  = response.data.access; 
-                console.log(token)
+
+                console.log(response);
+
+                const token  = response.data.access; 
                 setToken(token);
                 localStorage.setItem('token', token);
-                const payload = JSON.parse(atob(token.split('.')[1]));
                 
+                const payload = JSON.parse(atob(token.split('.')[1]));
                 const userId = payload.user_id;
                 localStorage.setItem('user_id', userId);
                 
-        
-                
-                
-                window.location.href = '/dashboard';
+                // navigate("/dashboard");
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+                console.log(err);
+            });
     }
     return (
         <div className={styles.container} 
