@@ -1,0 +1,30 @@
+.sidebar_container {
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    background-color: var(--chakra-colors-purple-50);
+    width: 100%;
+    height: 100%;
+
+
+}
+
+.slide_container {
+    height: 100vh;
+}
+
+.slide {
+    min-width: 258px;
+    max-width: 258px;
+    height: 100%;
+    background-color: aqua;
+    margin-top: 60px;
+}
+
+
+
+
+
+

@@ -1,5 +1,6 @@
 .container {
     width: 100%;
+    height: 100%;
 }
 
 .banner {
@@ -30,19 +31,16 @@
 }
 
 .container_main {
-    /* background-color: aquamarine; */
-    height: 50%;
+    /* height: 50%; */
 
     display: grid;
-    grid-template-columns: 0.5fr 2fr;
+    grid-template-columns: 20% 80%;
 
     padding: 80px 0px 0px 0px;
 
     /* height: calc(100vh - 80px); */
     
 }
-
-
 
 
 .complaint_report {
@@ -78,6 +76,7 @@
     width: 80%;
 
     flex: 1;
+
 }
 
 .complaint_registration .student_registration {
@@ -85,9 +84,43 @@
 }
 
 .complaint_registration .report_description {
-    min-height: 40%;
+    min-height: 200px;
+}
+
+
+.complaint_registration .report_place {
+    width: 30%;
 }
 
 .report_description textarea {
     height: 100%;
+}
+
+
+.form_buttons {
+    grid-column-start: 1;
+    grid-column-end: 3;
+
+    padding: 30px 80px 0px 80px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.input_error_message {
+    text-align: start;
+}
+
+.response_message {
+    color: #6E6E6E;
+    opacity: 75%;
+    
+    /* background-color: orange; */
+    height: 100%;
+
+    display: flex;
+    padding: 200px 100px 200px 100px;
+}
+
+.response_message_buttons {
+    margin-top: 100px;
 }
