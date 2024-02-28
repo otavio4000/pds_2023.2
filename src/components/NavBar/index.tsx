@@ -4,17 +4,22 @@ import { ReactComponent as MenuButton } from "assets/icons/hamburger-menu-svgrep
 import { Link } from "react-router-dom";
 import styles from "./styles.module.css";
 import { Button } from "@chakra-ui/react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import SideBar from "components/Sidebar";
 import api from "services/api";
 import { useDisclosure } from "@chakra-ui/react";
+import axios from "axios";
 
+
+  
 function NavBar() {
     const [token, setToken] = useState<string>(() => localStorage.getItem('token') || '');
     const [redirected, setRedirected] = useState(false);
     const { isOpen, onToggle } = useDisclosure();
-
+    
+    const navigate = useNavigate();
+    
     const location = useLocation();
     const path = location.pathname;
 
@@ -24,6 +29,7 @@ function NavBar() {
         window.location.href = '/';
 
     };
+    
     const validToken = async () => {
         try {
             const response = await api.post('/authentication/token/verify/', { token });
@@ -33,11 +39,14 @@ function NavBar() {
             console.error('Erro ao validar o token:', error);
             return false;
         }
+
+    
     };
 
 
     return (
-        <>
+        <>  
+            
 
             <div className={styles.container}
                 // style={path === "/login" ? { position: "absolute" } : { position: "unset" }}
@@ -62,6 +71,8 @@ function NavBar() {
                     </Button>
                 }
             </div>
+
+           
             
             { (path === "/dashboard" || path === "/students") && <SideBar isOpen={isOpen} onToggle={onToggle}/> }
         </>
