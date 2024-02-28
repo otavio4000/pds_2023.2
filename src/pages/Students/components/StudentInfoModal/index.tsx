@@ -33,13 +33,13 @@ const StudentInfoModal = (props: {
     const { student, isOpen, onClose } = props; 
 
     return (
-        <Modal isOpen={isOpen} onClose={onClose}>
+        <Modal isOpen={isOpen} onClose={onClose} size="md">
             <ModalOverlay />
             <ModalContent bg="white" className={styles.container}>
                 <Avatar size="xl" name={student.name} />
                 { student.name }
                 <ModalCloseButton />
-                <ModalBody>
+                <ModalBody className={styles.modal_body}>
                     <div className={styles.aluno_info}>
                         <div style={{
                             display: "flex",
@@ -60,15 +60,23 @@ const StudentInfoModal = (props: {
                         <div className={styles.tutor}>
                             <b>Tutor 1:</b> <br />
                             <div>
-                                <b>Nome</b>: {student.tutor1.name}
-                                <b>Contato</b>: {student.tutor1.tel}
+                                <span>
+                                    <b>Nome:</b> {student.tutor1.name}
+                                </span>
+                                <span>
+                                    <b>Contato:</b> {student.tutor1.tel}
+                                </span>
                             </div>
                         </div>
                         <div className={styles.tutor}>
                             <b>Tutor 2:</b> <br />
                             <div>
-                                <b>Nome</b>: {student.tutor2.name}
-                                <b>Contato</b>: {student.tutor2.tel}
+                                <span>
+                                    <b>Nome:</b> {student.tutor2.name}
+                                </span>
+                                <span>
+                                    <b>Contato:</b> {student.tutor2.tel}
+                                </span>
                             </div>
                         </div>
                     </div>

@@ -2,12 +2,13 @@
     display: flex;
     align-items: center;
     padding: 60px 20px;
+}
 
-    background-color: orange;
+.modal_body {
+    width: 90%;
 }
 
 .aluno_info span {
-    background-color: blue;
     padding: 10px 0px;
 }
 
@@ -15,7 +16,16 @@
     margin-bottom: 15px;
 }
 
+.tutors_info {
+    display: flex;
+    flex-direction: column;
+}
+
 .tutor {
-    background-color: aliceblue;
     margin-bottom: 10px;
+}
+
+.tutor div {
+    display: flex;
+    justify-content: space-between;
 }
