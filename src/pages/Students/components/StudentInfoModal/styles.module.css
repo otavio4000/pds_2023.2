@@ -1,0 +1,21 @@
+.container {
+    display: flex;
+    align-items: center;
+    padding: 60px 20px;
+
+    background-color: orange;
+}
+
+.aluno_info span {
+    background-color: blue;
+    padding: 10px 0px;
+}
+
+.aluno_info {
+    margin-bottom: 15px;
+}
+
+.tutor {
+    background-color: aliceblue;
+    margin-bottom: 10px;
+}
