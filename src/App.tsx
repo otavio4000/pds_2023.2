@@ -7,6 +7,7 @@ import NavBar from 'components/NavBar';
 import theme from 'styles/themes/theme';
 import Dashboard from 'pages/Dashboard';
 import FazerDenuncia from 'pages/FazerDenuncia';
+import Students from 'pages/Students';
 
 
 function App() {
@@ -28,7 +29,7 @@ function App() {
                   <Route path='/login' element={<Login />} />
                   <Route path='/denuncia' element={<FazerDenuncia />} />
                   <Route path='/dashboard' element={<Dashboard />} />
-                  <Route path='/students' element={<Dashboard />} />
+                  <Route path='/students' element={<Students />} />
                 </Routes>
               </>
             } />

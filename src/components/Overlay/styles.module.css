@@ -1,5 +1,8 @@
 .overlay {
-    background-color: black;
+    background-color: rgba(0, 0, 0, 0.177);
     height: 100%;
-    opacity: 12%;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 9;
 }

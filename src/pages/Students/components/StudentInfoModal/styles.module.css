@@ -1,0 +1,31 @@
+.container {
+    display: flex;
+    align-items: center;
+    padding: 60px 20px;
+}
+
+.modal_body {
+    width: 90%;
+}
+
+.aluno_info span {
+    padding: 10px 0px;
+}
+
+.aluno_info {
+    margin-bottom: 15px;
+}
+
+.tutors_info {
+    display: flex;
+    flex-direction: column;
+}
+
+.tutor {
+    margin-bottom: 10px;
+}
+
+.tutor div {
+    display: flex;
+    justify-content: space-between;
+}

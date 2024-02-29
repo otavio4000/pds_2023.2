@@ -23,26 +23,20 @@ import { DenunciaContext } from "context/DenunciaContext";
 import { useContext, useState } from "react";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { DenunciaRequest } from "../fazerdenuncia.types";
 
-interface DenunciaRequest {
-    numero_matricula: number;
-    relato: string;
-    lugar: string;
-    v_fisica: string;
-    v_verbal: string;
-    bullying: string;
-    assedio: string;
-    recorrencia: string;
-    data_ocorrido: string;
-}
+import Modal from 'react-modal';
 
 const schema = yup.object().shape({
-    numero_matricula: yup.number().typeError("Por favor, insira um número de matrícula.").required("Por favor, insira um número de matrícula."),
+    matricula: yup.number().typeError("Por favor, insira um número de matrícula.").required("Por favor, insira um número de matrícula."),
     relato: yup.string().required('Por favor, preencha o relato.'),
     lugar: yup.string().required('Por favor, preencha o local.'),
     recorrencia: yup.string().oneOf(["primeira", "recorrente"], "Por favor, selecione um recorrência válida.").required('Por favor, selecione uma recorrência.'),
     data_ocorrido: yup.string().required('Por favor, insira a data da ocorrência.'),
-    violenceTypes: yup.array().of(yup.string().oneOf(["v_fisica", "v_verbal", "assedio", "bullying"])).min(1, "Por favor, selecione ao menos uma opção.")
+    violenceTypes: yup.array().of(yup.string().oneOf(["v_fisica", "v_verbal", "assedio", "bullying"])).min(1, "Por favor, selecione ao menos uma opção."),
+    telefone_1: yup.string().required('Por favor, preencha o seu telefone.'),
+    
+    
 })
 
 
@@ -51,25 +45,73 @@ const SchoolViolenceCard = () => {
     const { setViolenceType } = useContext(DenunciaContext);
     const toast = useToast();
     const [isLoading, setIsLoading] = useState(false);
+    
 
-    const { register, handleSubmit, formState: { errors }, reset } = useForm({
+    const { register, handleSubmit, getValues, formState: { errors }, reset } = useForm({
         resolver: yupResolver(schema),
         defaultValues: {
             violenceTypes: [],
         },
     });
+    const [isCodeModalOpen, setIsCodeModalOpen] = useState(false);
+    const [code, setCode] = useState<string>("");
+
+    const handleCodeSubmit = async (code: string) => {
+        try {
+            const formData = {
+             
+              codigo: code
+              
+            };
+            
+
+            const formPost ={
+                matricula: getValues("matricula"),
+                relato: getValues("relato"),
+                data_ocorrido: getValues("data_ocorrido"),
+                lugar: getValues("lugar"),
+                recorrencia: getValues("relato"),
+                v_fisica: getValues("violenceTypes")?.includes("v_fisica")? "yes" : "no",
+                v_domestica: getValues("violenceTypes")?.includes("v_domestica")? "yes" : "no",
+                v_verbal: getValues("violenceTypes")?.includes("v_verbal")? "yes" : "no",
+                bullying: getValues("violenceTypes")?.includes("bullying")? "yes" : "no",
+                assedio: getValues("violenceTypes")?.includes("assedio")? "yes" : "no",
+                telefone_1: getValues("telefone_1")
+                
+            }
+            
+            
+            const responseForm = await api.post("/verification/check", formData);
+            const responseForm1 = await api.post("/denuncia/add", formPost);
+            
+      
+            console.log("Formulário enviado com sucesso!");
+            toast({
+              // ... código existente
+            });
+      
+            setIsCodeModalOpen(false); // Fecha o modal após o envio do formulário
+          } catch (error) {
+            // ... código existente
+            console.error(error);
+          }
+          reset()
+        }
 
     const onSubmit = async (data: any) => {
-
+        
+        
         // Aqui precisamos converter o objeto de form para o objeto que o backend espera: para isso, removemos o campo "violenceTypes" e adicionar os campos "v_fisica", "v_verbal", "bullying" e "assedio"
         const { violenceTypes, ...rest } = data;
         const v_fisica = violenceTypes.includes("v_fisica") ? "yes" : "no";
         const v_verbal = violenceTypes.includes("v_verbal") ? "yes" : "no";
         const bullying = violenceTypes.includes("bullying") ? "yes" : "no";
         const assedio = violenceTypes.includes("assedio") ? "yes" : "no";
+        const v_domestica = "no";
 
         const post: DenunciaRequest = {
             ...rest,
+            v_domestica,
             v_fisica,
             v_verbal,
             bullying,
@@ -78,7 +120,12 @@ const SchoolViolenceCard = () => {
 
         setIsLoading(true); 
         try {
-            const response = await api.post("/denuncia/add", post);
+            
+            const responseTelefone = await api.post("/verification/", { telefone: data.telefone_1 });
+            console.log("Código enviado com sucesso para o telefone:", data.telefone_1);
+
+            setCode(""); // Reset code state
+            setIsCodeModalOpen(true); // Open the modal for code verification
             
             toast({
                 position: 'top',
@@ -92,7 +139,7 @@ const SchoolViolenceCard = () => {
                 }
             })
 
-            console.log(response);
+            
         } catch (error) {
 
             /*
@@ -117,11 +164,14 @@ const SchoolViolenceCard = () => {
             console.log(error);
         } finally {
             setIsLoading(false);
-            reset(); 
-        }   
+            console.log("Finalizei")
+            
+        } 
+        
+        
 
     }
-
+    
 
     return (
         <>
@@ -162,12 +212,12 @@ const SchoolViolenceCard = () => {
                             <Input type="date" {...register("data_ocorrido")} />
                             <FormErrorMessage className={styles.input_error_message}> {errors.data_ocorrido?.message} </FormErrorMessage>
                         </FormControl>
-                    </Stack>
+                    </Stack> 
                 </Stack>
                 <Stack spacing={3} className={styles.complaint_registration}>
-                    <FormControl className={styles.student_registration} isInvalid={!!errors.numero_matricula}>
-                        <Input type="number" placeholder="Número de matrícula" {...register("numero_matricula")} />
-                        <FormErrorMessage className={styles.input_error_message}> {errors.numero_matricula?.message} </FormErrorMessage>
+                    <FormControl className={styles.student_registration} isInvalid={!!errors.matricula}>
+                        <Input type="number" placeholder="Número de matrícula" {...register("matricula")} />
+                        <FormErrorMessage className={styles.input_error_message}> {errors.matricula?.message} </FormErrorMessage>
                     </FormControl>
                     <FormControl isInvalid={!!errors.relato}>
                         <Textarea className={styles.report_description} resize="none" {...register("relato")} placeholder="Digite o seu relato..." />
@@ -177,6 +227,11 @@ const SchoolViolenceCard = () => {
                         <Input type="text" placeholder="Digite onde ocorreu..." {...register("lugar")} />
                         <FormErrorMessage className={styles.input_error_message}> {errors.lugar?.message} </FormErrorMessage>
                     </FormControl>
+                    <FormControl className={styles.report_place} isInvalid={!!errors.lugar}>
+                        <Input type="number" placeholder="Digite seu telefone..." {...register("telefone_1")} />
+                        <FormErrorMessage className={styles.input_error_message}> {errors.telefone_1?.message} </FormErrorMessage>
+                    </FormControl>
+                    
                 </Stack>
                 <ButtonGroup className={styles.form_buttons}>
                     <Link to="/">
@@ -210,8 +265,30 @@ const SchoolViolenceCard = () => {
                     </ButtonGroup>
                 </ButtonGroup>
             </form>
+            <Modal
+                isOpen={isCodeModalOpen}
+                onRequestClose={() => setIsCodeModalOpen(false)}
+            >
+                <form
+                    onSubmit={(e) => {
+                        e.preventDefault();
+                        handleCodeSubmit(code);
+                    }}
+                >
+                    <label>
+                        Código:
+                        <input
+                            type="text"
+                            value={code}
+                            onChange={(e) => setCode(e.target.value)}
+                        />
+                    </label>
+                    <button type="submit">Verificar Código</button>
+                </form>
+            </Modal>
         </>
     )
 }
+
 
 export default SchoolViolenceCard;
