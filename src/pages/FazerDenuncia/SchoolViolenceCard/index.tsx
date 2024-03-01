@@ -257,6 +257,7 @@ const SchoolViolenceCard = () => {
                             bg="orange"
                             colorScheme="orange"
                             onClick={() => {
+                                console.log("Fui clicado")
                                 setViolenceType(ViolenceType.Domestic)
                             }
                             }>
