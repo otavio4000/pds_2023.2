@@ -129,9 +129,9 @@ const DomesticViolenceCard = () => {
             
             toast({
                 position: 'top',
-                title: 'Denúncia enviada.',
-                description: "Obrigada por usar nossos serviços.",
-                status: 'success',
+                title: 'Código de verificação.',
+                description: "Um código de verificação será enviado para o seu celular.",
+                status: 'info',
                 duration: 9000,
                 isClosable: true,
                 containerStyle: {
