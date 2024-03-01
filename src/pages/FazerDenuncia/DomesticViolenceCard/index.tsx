@@ -37,14 +37,12 @@ const schema = yup.object().shape({
     data_ocorrido: yup.string().required('Por favor, insira a data da ocorrência.'),
     violenceTypes: yup.array().of(yup.string().oneOf(["v_fisica", "v_verbal", "assedio", "bullying"])).min(1, "Por favor, selecione ao menos uma opção."),
     telefone_1: yup.string().required('Por favor, preencha o seu telefone.'),
-    
-    
 })
 
 
-const SchoolViolenceCard = () => {
+const DomesticViolenceCard = () => {
 
-    const { setViolenceType } = useContext(DenunciaContext);
+    const { setViolenceType, violenceType } = useContext(DenunciaContext);
     const toast = useToast();
     const [isLoading, setIsLoading] = useState(false);
     
@@ -74,7 +72,7 @@ const SchoolViolenceCard = () => {
                 lugar: getValues("lugar"),
                 recorrencia: getValues("relato"),
                 v_fisica: getValues("violenceTypes")?.includes("v_fisica")? "yes" : "no",
-                v_domestica: getValues("violenceTypes")?.includes("v_domestica")? "yes" : "no",
+                v_domestica: "yes",
                 v_verbal: getValues("violenceTypes")?.includes("v_verbal")? "yes" : "no",
                 bullying: getValues("violenceTypes")?.includes("bullying")? "yes" : "no",
                 assedio: getValues("violenceTypes")?.includes("assedio")? "yes" : "no",
@@ -109,7 +107,7 @@ const SchoolViolenceCard = () => {
         const v_verbal = violenceTypes.includes("v_verbal") ? "yes" : "no";
         const bullying = violenceTypes.includes("bullying") ? "yes" : "no";
         const assedio = violenceTypes.includes("assedio") ? "yes" : "no";
-        const v_domestica = "no";
+        const v_domestica = "yes";
 
         const post: DenunciaRequest = {
             ...rest,
@@ -123,17 +121,17 @@ const SchoolViolenceCard = () => {
         setIsLoading(true); 
         try {
             
-            const responseTelefone = await api.post("https://backendd-vk3y.onrender.com/api/v1/verification/", { telefone: data.telefone });
-            console.log("Código enviado com sucesso para o telefone:", data.telefone);
+            const responseTelefone = await api.post("/verification/", { telefone: data.telefone_1 });
+            console.log("Código enviado com sucesso para o telefone:", data.telefone_1);
 
             setCode(""); // Reset code state
             setIsCodeModalOpen(true); // Open the modal for code verification
             
             toast({
                 position: 'top',
-                title: 'Denúncia enviada.',
-                description: "Obrigada por usar nossos serviços.",
-                status: 'success',
+                title: 'Código de verificação.',
+                description: "Um código de verificação será enviado para o seu celular.",
+                status: 'info',
                 duration: 9000,
                 isClosable: true,
                 containerStyle: {
@@ -236,15 +234,15 @@ const SchoolViolenceCard = () => {
                     
                 </Stack>
                 <ButtonGroup className={styles.form_buttons}>
-                    <Link to="/">
                         <Button
                             color="white.50"
                             bg="pink.50"
                             _hover={{ bgColor: "pink.100" }}
-                            _active={{ bgColor: "pink.200" }}>
+                            _active={{ bgColor: "pink.200" }}
+                            onClick={() => setViolenceType(ViolenceType.School)}
+                            >
                             VOLTAR
                         </Button>
-                    </Link>
                     <ButtonGroup>
                         <Button
                             type="submit"
@@ -253,16 +251,6 @@ const SchoolViolenceCard = () => {
                             isLoading={isLoading}
                         >
                             ENVIAR
-                        </Button>
-                        <Button
-                            leftIcon={<HandIcon width="20" />}
-                            bg="orange"
-                            colorScheme="orange"
-                            onClick={() => {
-                                setViolenceType(ViolenceType.Domestic)
-                            }
-                            }>
-                            SOFREU VIOLÊNCIA DOMÉSTICA?
                         </Button>
                     </ButtonGroup>
                 </ButtonGroup>
@@ -293,4 +281,4 @@ const SchoolViolenceCard = () => {
 }
 
 
-export default SchoolViolenceCard;
+export default DomesticViolenceCard;
