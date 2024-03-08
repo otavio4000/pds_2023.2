@@ -67,6 +67,7 @@ const DomesticViolenceCard = () => {
         setIsLoading(true);
         try {
 
+
             const responseTelefone = await twoFactorVerification(data.telefone_1);
             setPostObject({
                 ...rest,
@@ -75,6 +76,7 @@ const DomesticViolenceCard = () => {
                 v_verbal,
                 bullying,
                 assedio
+
             })
             
             onOpen(); 

@@ -70,6 +70,7 @@ const SchoolViolenceCard = () => {
         setIsLoading(true);
         try {
 
+
             const responseTelefone = await twoFactorVerification(data.telefone_1);
             setPostObject({
                 ...rest,
@@ -78,6 +79,7 @@ const SchoolViolenceCard = () => {
                 v_verbal,
                 bullying,
                 assedio
+
             })
             
             onOpen(); 
