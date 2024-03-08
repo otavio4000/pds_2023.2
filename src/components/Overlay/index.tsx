@@ -13,8 +13,6 @@ const Overlay = (
 
     const handleClick = () => {
 
-        console.log(onClickFunction)
-
         if (onClickFunction) onClickFunction(); 
     }
 
