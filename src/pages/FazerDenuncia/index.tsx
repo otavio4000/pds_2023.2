@@ -4,9 +4,9 @@ import { Box, Heading, Divider, Text, FormControl, FormLabel, FormErrorMessage, 
 import { Input, InputLeftAddon, Select, RadioGroup, Radio, Checkbox, CheckboxGroup, Textarea, Stack } from "@chakra-ui/react";
 import { ViolenceType } from "enums/violencetype";
 import { DenunciaContext } from "context/DenunciaContext";
+import { VerificationCodeContext } from "context/VerificationCodeContext";
 import styles from "./styles.module.css";
-import { useState, createContext, useContext } from "react";
-import axios from "axios";
+import { useState, useContext } from "react";
 import SchoolViolenceCard from "./SchoolViolenceCard";
 import DomesticViolenceCard from "./DomesticViolenceCard";
 
@@ -85,9 +85,9 @@ function FazerDenuncia() {
 
                 {
                     formSent ?
-                        <ResponseMessage />
-                        :
-                        <Display />
+                    <ResponseMessage />
+                    :
+                    <Display />
                 }
 
             </DenunciaContext.Provider>

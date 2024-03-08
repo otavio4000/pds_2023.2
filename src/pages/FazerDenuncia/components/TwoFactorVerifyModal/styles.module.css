@@ -1,0 +1,14 @@
+.modal_body {
+    padding: 20px 40px;
+}
+
+.modal_form_body { 
+    margin-bottom: 20px;
+}
+
+.modal_form {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 0px;
+}
+

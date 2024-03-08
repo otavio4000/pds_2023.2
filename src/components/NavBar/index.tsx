@@ -48,9 +48,7 @@ function NavBar() {
         <>  
             
 
-            <div className={styles.container}
-                // style={path === "/login" ? { position: "absolute" } : { position: "unset" }}
-            >   
+            <div className={styles.container}>   
             <div className={styles.logo_controls}>
                 { (path === "/dashboard" || path === "/students") && <IconButton icon={MenuButton} handleClick={onToggle} /> }
                 <Link to="/" className={styles.container_logo}>
