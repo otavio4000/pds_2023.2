@@ -17,7 +17,6 @@ import {
     useToast,
     useDisclosure
 } from "@chakra-ui/react";
-import api from "services/api";
 import { useForm } from "react-hook-form";
 import { ViolenceType } from "enums/violencetype";
 import { DenunciaContext } from "context/DenunciaContext";
@@ -28,6 +27,9 @@ import { DenunciaRequest } from "../fazerdenuncia.types";
 import TwoFactorVerifyModal from "../components/TwoFactorVerifyModal";
 import { twoFactorVerification } from "../utils/twoFactorVerification";
 
+// Objeto de validação de arquivo 
+const validFileExtensions = ["png", "jpg", "jpeg", "webp", "mp4", "avi", "mkv", "mov", "wmv", "webm", "mpg", "mpeg", "3gp"];
+
 // Campos do Form
 const schema = yup.object().shape({
     matricula: yup.number().typeError("Por favor, insira um número de matrícula.").required("Por favor, insira um número de matrícula."),
@@ -37,19 +39,63 @@ const schema = yup.object().shape({
     data_ocorrido: yup.string().required('Por favor, insira a data da ocorrência.'),
     violenceTypes: yup.array().of(yup.string().oneOf(["v_fisica", "v_verbal", "assedio", "bullying"])).min(1, "Por favor, selecione ao menos uma opção."),
     telefone_1: yup.string().required('Por favor, preencha o seu telefone.'),
+    arquivo: yup.mixed().test(
+        "required",
+        "Por favor, selecione ao menos um arquivo.",
+        ((files: any) => {
+            if (files instanceof FileList) {
+                return files.length > 0  
+            }
+            return false;
+        })
+    )
+    .test(
+        "formato-arquivos",
+        "Algum dos arquivos está com formato inválido. Tente enviar vídeos ou fotos.",
+        ((files: any) => {
+            if (files instanceof FileList) {
+
+                let areAllFilesValid: boolean = true; 
+
+                let fileKeys = Object.keys(files);
+
+                fileKeys.forEach((key) => {
+                    console.log("Estou passando pelos arquivos")
+                    const file = files.item(parseInt(key));
+                    const extension = file?.name.split(".")[1];
+
+                    if (!extension) {
+                        areAllFilesValid = false; 
+                    } else {
+                        if (!validFileExtensions.includes(extension)) {
+                            areAllFilesValid = false; 
+                        }
+                    }
+
+
+                })
+
+                return areAllFilesValid;
+            }
+
+            return false; 
+
+        }
+
+        )
+    )
 })
 
 
-
 const SchoolViolenceCard = () => {
-    
+
     const { setViolenceType } = useContext(DenunciaContext);
     const toast = useToast();
     const { isOpen, onClose, onOpen } = useDisclosure();
     const [isLoading, setIsLoading] = useState(false);
     const [postObject, setPostObject] = useState<DenunciaRequest>();
-    
-    const { register, handleSubmit, getValues, formState: { errors }, reset } = useForm({
+
+    const { register, handleSubmit, setValue, formState: { errors }, reset } = useForm({
         resolver: yupResolver(schema),
         defaultValues: {
             violenceTypes: [],
@@ -81,16 +127,16 @@ const SchoolViolenceCard = () => {
                 assedio
 
             })
-            
-            onOpen(); 
+
+            onOpen();
 
         } catch (error) {
 
             console.log(error, "Primeira linha")
             setIsLoading(false);
-            
+
             if (error instanceof Error) {
-                
+
                 toast({
                     position: "top",
                     title: error.message,
@@ -174,7 +220,15 @@ const SchoolViolenceCard = () => {
                         <Input type="number" placeholder="Digite seu telefone..." {...register("telefone_1")} />
                         <FormErrorMessage className={styles.input_error_message}> {errors.telefone_1?.message} </FormErrorMessage>
                     </FormControl>
-
+                    <FormControl className={styles.media_files} isInvalid={!!errors?.arquivo}>
+                        <FormLabel fontSize="lg">
+                            Insira aqui um vídeo ou foto do ocorrido
+                        </FormLabel>
+                        <Input type="file" 
+                        {...register("arquivo")}
+                        accept=".png,.jpg,.jpeg,.webp,.mp4,.avi,.mkv,.mov,.wmv,.webm,.mpg,.mpeg,.3gp" multiple />
+                        <FormErrorMessage className={styles.input_error_message}> {errors.arquivo?.message} </FormErrorMessage>
+                    </FormControl>
                 </Stack>
                 <ButtonGroup className={styles.form_buttons}>
                     <Link to="/">
