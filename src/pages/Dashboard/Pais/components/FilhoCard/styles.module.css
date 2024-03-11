@@ -1,0 +1,15 @@
+.avatar_child {
+    margin-bottom: 10px;
+}
+
+.card {
+    width: 247px;
+    height: 288px;
+}
+
+.card_body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
