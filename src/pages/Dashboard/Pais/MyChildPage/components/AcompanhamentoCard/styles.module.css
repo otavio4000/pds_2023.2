@@ -1,0 +1,16 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+}
+
+.types_of_violence {
+    display: flex;
+    color: white;
+    gap: 10px;
+}
+
+.people {
+    text-align: start;
+}

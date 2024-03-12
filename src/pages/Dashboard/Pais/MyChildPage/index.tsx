@@ -6,6 +6,7 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import Notification from "./components/Notification";
+import AcompanhamentoCard from "./components/AcompanhamentoCard";
 
 interface INotification {
     type: string,
@@ -13,6 +14,19 @@ interface INotification {
     time: string,
     description: string, 
     color: string 
+}
+
+interface TypeOfViolence {
+    title: string,
+    color: string
+}
+
+
+interface AcompanhamentoDetails {
+    types: Array<TypeOfViolence>,
+    title: string, 
+    praticante: string,
+    vitima: string 
 }
 
 const MyChildPage = () => {
@@ -35,6 +49,21 @@ const MyChildPage = () => {
         }
     ]);
 
+    const [acompanhamentos, setAcompanhamentos] = useState<Array<AcompanhamentoDetails>>([
+        {
+            types: [{title: "bullying", color: "purple"}, {title: "violência física", color: "orange"}],
+            title: "Bullying durante as aulas de educação física",
+            praticante: "Fausto Silva",
+            vitima: "Silvio Santos"
+        },
+        {
+            types: [{title: "violência física", color: "orange"}],
+            title: "Briga no pátio ESCOLAR",
+            praticante: "Silvio Santos",
+            vitima: "Fausto Silva"
+        },
+    ])
+
     return (
         <div className={styles.container_main}>
             <img className={styles.banner} src={banner} alt="" />
@@ -56,6 +85,15 @@ const MyChildPage = () => {
                     <Heading size="lg">
                         Acompanhamento
                     </Heading>
+                    <div className={styles.reports_cards}>
+                        {
+                            acompanhamentos.map(acompanhamento => {
+                                return(
+                                    <AcompanhamentoCard acompanhamento={acompanhamento} />
+                                )
+                            })
+                        }
+                    </div>
                 </div>
             </div>
         </div>
