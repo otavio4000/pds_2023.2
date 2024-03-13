@@ -15,7 +15,8 @@ interface AcompanhamentoDetails {
     types: Array<TypeOfViolence>,
     title: string, 
     praticante: string,
-    vitima: string 
+    vitima: string, 
+    link: string
 }
 
 const AcompanhamentoCard = (props: {
@@ -25,7 +26,9 @@ const AcompanhamentoCard = (props: {
     const { acompanhamento } = props; 
 
     return (
-        <Card variant="filled">
+        <Card className={styles.card} variant="filled" onClick={() => {
+            
+        }}>
             <CardBody className={styles.main}>
                 <div className={styles.types_of_violence}>
                     {

@@ -3,10 +3,16 @@ import banner from "assets/images/wave-banner.svg";
 import styles from "./styles.module.css";
 import {
     Heading,
+    Box, 
+    Divider, 
+    Text
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { ParentDashboardContext } from "context/ParentDashboardContext";
 import Notification from "./components/Notification";
 import AcompanhamentoCard from "./components/AcompanhamentoCard";
+import MyChildInformationCard from "./MyChildInformationCard";
+import AcompanhamentoInformationCard from "./AcompanhamentoInformationCard";
 
 interface INotification {
     type: string,
@@ -26,78 +32,57 @@ interface AcompanhamentoDetails {
     types: Array<TypeOfViolence>,
     title: string, 
     praticante: string,
-    vitima: string 
+    vitima: string,
+    link: string 
+}
+
+const Header = () => {
+
+    const { parentDashboardState } = useContext(ParentDashboardContext);
+
+    return (
+        <Box className={styles.banner} style={{
+            backgroundColor: "white",
+            backgroundImage: `url(${banner})`,
+            height: "147px"
+        }}>
+            <Heading className={styles.banner_heading}> 
+                { parentDashboardState == "general" ? "" : "Título da denúncia"}
+            </Heading>
+            <Divider orientation="horizontal" />
+            <Text fontSize="lg" className={styles.banner_text}> 
+                { parentDashboardState == "general" ? "" : "Aqui deve ficar o nome do meu filho."} 
+            </Text>
+        </Box>
+        
+    )
+}
+
+const Display = () => {
+
+    const { parentDashboardState } = useContext(ParentDashboardContext);
+
+    if (parentDashboardState == "general") {
+        return (
+            <MyChildInformationCard />
+        )
+    } else {
+        return (
+            <AcompanhamentoInformationCard />
+        )
+    }
+
 }
 
 const MyChildPage = () => {
 
-    const { id } = useParams(); 
-    const [notifications, setNotifications] = useState<Array<INotification>>([
-        {
-            type: "bullying",
-            title: "Atualização do Caso",
-            description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium velit perspiciatis ipsum quia quis adipisci rerum commodi excepturi optio! Aliquid quidem vero nisi veritatis quod in accusamus ex maiores! Dicta.",
-            color: "pink",
-            time: "24 de nov. às 10:30"
-        },
-        {
-            type: "alerta de falta",
-            title: "Fausto Silva vêm faltando aulas frequentemente",
-            description: "Nosso sistema detectou que Fausto Silva teve x faltas no último mês.",
-            color: "orange",
-            time: "23 de fev. às 16:30"
-        }
-    ]);
-
-    const [acompanhamentos, setAcompanhamentos] = useState<Array<AcompanhamentoDetails>>([
-        {
-            types: [{title: "bullying", color: "purple"}, {title: "violência física", color: "orange"}],
-            title: "Bullying durante as aulas de educação física",
-            praticante: "Fausto Silva",
-            vitima: "Silvio Santos"
-        },
-        {
-            types: [{title: "violência física", color: "orange"}],
-            title: "Briga no pátio ESCOLAR",
-            praticante: "Silvio Santos",
-            vitima: "Fausto Silva"
-        },
-    ])
-
     return (
-        <div className={styles.container_main}>
-            <img className={styles.banner} src={banner} alt="" />
-            <div className={styles.main}>
-                <div className={styles.notifications}>
-                    <Heading size="lg">
-                        Notificações Recentes
-                    </Heading>
-                    {
-                        notifications.map(notification => {
-                            return(
-                                <Notification info={notification} />
-                            )
-                        })
-                    }
-
-                </div>
-                <div className={styles.reports}>
-                    <Heading size="lg">
-                        Acompanhamento
-                    </Heading>
-                    <div className={styles.reports_cards}>
-                        {
-                            acompanhamentos.map(acompanhamento => {
-                                return(
-                                    <AcompanhamentoCard acompanhamento={acompanhamento} />
-                                )
-                            })
-                        }
-                    </div>
-                </div>
-            </div>
-        </div>
+        <>
+            <Header />
+            <Display />
+        </>
     )
+    
 }
 
 export default MyChildPage;
