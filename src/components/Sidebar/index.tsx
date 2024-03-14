@@ -1,7 +1,7 @@
 import Overlay from "components/Overlay";
 import styles from "./styles.module.css";
 import PathButton from "./components/PathButton";
-import { ReactComponent as PieChart } from "assets/icons/graph-pie-svgrepo-com.svg";
+import { ReactComponent as AddStudent } from "assets/icons/add-profile-svgrepo-com.svg";
 import { ReactComponent as Student } from "assets/icons/user-svgrepo-com.svg";
 import { ReactComponent as Complaint } from "assets/icons/complaint-svgrepo-com.svg";
 import { useLocation } from "react-router-dom";
@@ -31,8 +31,8 @@ const SideBar = (props: {
                 <div className={styles.sidebar_container}>
 
                     <PathButton linkTo="/dashboard" pathName={"Denúncias"} icon={Complaint} selected={path === "/dashboard"}/>
-                    {/* <PathButton pathName={"Estatísticas"} icon={PieChart} selected={path === "/stats"}/> */}
                     <PathButton linkTo="/students" pathName={"Alunos"} icon={Student} selected={path === "/students"}/>
+                    <PathButton linkTo="/students/add" pathName={"Adicionar Aluno"} icon={AddStudent} selected={path === "/students/add"}/>
 
 
                 </div>
