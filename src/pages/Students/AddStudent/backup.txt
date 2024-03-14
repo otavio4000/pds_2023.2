@@ -1,0 +1,78 @@
+ {/* <form >
+                    <Card w="lg">
+                        <CardHeader>
+                            <Heading size="md">
+                                Cadastro de Aluno
+                            </Heading>
+                        </CardHeader>
+                        <CardBody>
+                            <FormControl>
+                                <FormLabel>Número de matrícula</FormLabel>
+                                <Input type="number" placeholder="Ex: 23387263" />
+                            </FormControl>
+                            <FormControl>
+                                <FormLabel>Nome do Aluno</FormLabel>
+                                <Input type="text" placeholder="Ex: João da Silva" />
+                            </FormControl>
+                            <FormControl>
+                                <FormLabel>CPF</FormLabel>
+                                <Input type="cpf" placeholder="Ex: 388.484.010-07" />
+                            </FormControl>
+                            <FormControl>
+                                <FormLabel>Data de Nascimento</FormLabel>
+                                <Input type="date" />
+                            </FormControl>
+                            <FormControl>
+                                <FormLabel>Ano</FormLabel>
+                                <Select placeholder='---'>
+                                    {
+                                        sampleStudentYears.map(year => {
+                                            return (
+                                                <option value="year">{year}</option>
+                                            )
+                                        })
+                                    }
+                                </Select>
+                            </FormControl>
+                            <FormControl>
+                                <FormLabel>Turma</FormLabel>
+                                <Select placeholder='---'>
+                                    {
+                                        sampleStudentClasses.map(turma => {
+                                            return (
+                                                <option value="turma">{turma}</option>
+                                            )
+                                        })
+                                    }
+                                </Select>
+                            </FormControl>
+                            <FormControl>
+                                <FormLabel>Histórico Acadêmico</FormLabel>
+                                <Input type="file" />
+                            </FormControl>
+                            <FormControl>
+                                <FormLabel>Histórico de faltas</FormLabel>
+                                <Input type="number" />
+                            </FormControl>
+                            <FormControl>
+                                <FormLabel>Observações</FormLabel>
+                                <Textarea />
+                            </FormControl>
+                            <FormControl>
+                                <FormLabel>Contato com substâncias ilícitas</FormLabel>
+                                <Select placeholder="---">
+                                    <option value="yes">Sim</option>
+                                    <option value="no">Não</option>
+                                </Select>
+                            </FormControl>
+                            <FormConstrol>
+                                <FormLabel>Situação Familiar</FormLabel>
+                                <Textarea />
+                            </FormControl>
+                            <FormControl>
+                                <FormLabel>Engajamento familiar</FormLabel>
+                                <Textarea />
+                            </FormControl>
+                        </CardBody>
+                    </Card>
+                </form> */}

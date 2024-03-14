@@ -23,7 +23,6 @@ import { DenunciaContext } from "context/DenunciaContext";
 import { useContext, useState } from "react";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import Modal from 'react-modal';
 import { DenunciaRequest } from "../fazerdenuncia.types";
 
 const validFileExtensions = ["png", "jpg", "jpeg", "webp", "mp4", "avi", "mkv", "mov", "wmv", "webm", "mpg", "mpeg", "3gp"];
