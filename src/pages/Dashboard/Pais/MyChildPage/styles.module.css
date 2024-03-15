@@ -3,7 +3,6 @@
     flex-direction: column;
     align-items: flex-start;
     padding: 53px 87px;
-
 }
 
 .banner {
@@ -14,4 +13,23 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+}
+
+.heading {
+    margin-bottom: 12px;
+}
+
+.notifications, .reports {
+    margin-bottom: 10px;
+}
+
+.reports {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.reports_cards {
+    display: flex;
+    gap: 10px;
 }

@@ -35,6 +35,9 @@ const theme = extendTheme({
             solid: {
                 bg: 'white',
                 padding: "10px 47px 10px 47px",
+              },
+            outline: {
+              padding: "10px 47px 10px 47px",
             },
             icon: {
               bg: 'transparent',
