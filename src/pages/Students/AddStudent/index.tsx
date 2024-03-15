@@ -35,39 +35,43 @@ const schema = yup.object().shape({
     data_nascimento: yup.string().required('Por favor, insira a data de nascimento.'),
     ano: yup.string().oneOf(sampleStudentYears, "Por favor, selecione um ano válido.").required('Por favor, selecione uma opção.'),
     turma: yup.string().oneOf(sampleStudentClasses, "Por favor, selecione uma turma válido.").required('Por favor, selecione uma opção.'),
-    historico_faltas: yup.number().typeError("Por favor, insira um número."),
+    historico_faltas: yup.number().positive("O número de faltas não pode ser negativo.").typeError("Por favor, insira um número.").required("Por favor, insira o histórico de faltas."),
     observacoes: yup.string(),
-    situacao_familiar: yup.string(), 
-    engajamento_familia: yup.string(), 
+    situacao_familiar: yup.string().required("Por favor, preencha esse campo."), 
+    engajamento_familia: yup.string().required("Por favor, preencha esse campo."), 
     contato_substancias_ilicitas: yup.string().oneOf(["yes", "no"], "Por favor, selecione uma opção válida"),
-    historico_academico: yup.mixed().test(
-        "formato-historico",
-        "O histórico está com o formato inválido. Tente enviar como PDF.",
+    historico_academico: yup.mixed()
+    .test(
+        "formato-arquivos",
+        "O formato do arquivo é inválido. Tente enviar um arquivo no formato PDF.",
         ((files: any) => {
+
             if (files instanceof FileList) {
+                let isFileValid: boolean = true; 
+                const file = files.item(0);
+                const extension = file?.name.split(".")[1];
 
-                let isFileValid = true;
+                
 
-                let fileKeys = Object.keys(files);
+                if (!extension) {
+                    isFileValid = true; 
+                } else {
 
-                fileKeys.forEach((key) => {
-                    const file = files.item(parseInt(key));
-                    const extension = file?.name.split(".")[1];
 
-                    if (extension == "pdf") {
-                        isFileValid = false;
+                    if (extension !== "pdf") {
+                        isFileValid = false; 
                     }
 
+                }
 
-                })
 
                 return isFileValid;
-            }
+            
+            } 
 
             return false;
 
         }
-
         )
     )
 })
@@ -81,15 +85,29 @@ const AddStudent = () => {
 
     const onSubmit = async (data: any) => {
 
-        const { turma, ano, ...rest } = data; 
+        const { turma, ano, historico_academico, ...rest } = data; 
+
+        const fileList = historico_academico as FileList; 
+        const arquivo_historico_academico = fileList.item(0);
+
 
         const post = {
             ...rest, 
             turma_ano: `${ano} Ano Turma ${turma}`,
+            historico_academico: arquivo_historico_academico
         }
 
+        console.log(post.historico_academico);
+
         try {
-            const response = await api.post("/alunos/add", post);
+            const response = await api.postForm(
+                "/alunos/add", 
+                post,
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("token")}` 
+                    }
+                });
             console.log(response) 
         } catch (error) {
             console.log(error)
@@ -142,7 +160,7 @@ const AddStudent = () => {
                                 {
                                     sampleStudentYears.map(year => {
                                         return (
-                                            <option value={year}>{year}</option>
+                                            <option key={year} value={year}>{year}</option>
                                         )
                                     })
                                 }
@@ -155,7 +173,7 @@ const AddStudent = () => {
                                 {
                                     sampleStudentClasses.map(turma => {
                                         return (
-                                            <option value={turma}>{turma}</option>
+                                            <option key={turma} value={turma}>{turma}</option>
                                         )
                                     })
                                 }
