@@ -1,0 +1,111 @@
+.cardaqui {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 40px;
+    align-items: center;
+    flex-direction: column;
+    
+    
+  }
+  
+  .card {
+    border: 1px solid #efe4f4 !important;
+    height:  150px;
+    width: 200px;
+    padding: 10px;
+    margin: 10px;
+    align-items: center; 
+    border-radius: 10px;
+    background-color:rgb(246, 250, 250)
+  }
+  
+  .cardIcons {
+    display: flex; /* Torna os ícones flexíveis (em linha) */
+    justify-content: center; /* Centraliza os ícones horizontalmente */
+    margin-bottom: 10px; /* Espaço entre os ícones e os cards */
+  }
+  
+  .icone {
+   
+   
+    border-radius: 35px;
+    width: 35px; /* Ajuste conforme necessário */
+    height: 35px; /* Ajuste conforme necessário */
+    margin-right: 10px; /* Espaço entre os ícones */
+  }
+  .content{
+   text-align: left;
+  }
+
+  .card:hover {
+    transform: scale(1.1); /* Ajuste o fator de escala conforme necessário */
+    transition: transform 0.3s ease; /* Ajuste a duração e o tipo de transição conforme necessário */
+  }
+
+  .cardContainer{
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+
+  }
+
+
+  .section-title {
+    font-size: 24px ;
+    font-weight: bold ;
+    color: #333; 
+    margin-bottom: 10px ; 
+  }
+  
+  .recent-reports {
+    background-color: #f0f0f0 ; 
+    padding: 10px ; 
+  }
+  
+  .severe-reports {
+    background-color: #e0e0e0 ;
+    padding: 10px ; 
+  }
+
+  .section {
+    margin-bottom: 20px; 
+  }
+
+  h1{
+    font-size: 25px;
+    font-weight:600
+  }
+  
+
+  .card {
+    
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    
+    
+  }
+  
+  .show {
+   
+    opacity: 1;
+    
+  }
+
+
+  /* The animation code */
+@keyframes card {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+.cardLink{
+    animation-name: card;
+    animation-duration: 4s;
+}
+
+
+  
+  
+  
