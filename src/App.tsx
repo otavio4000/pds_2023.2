@@ -9,7 +9,8 @@ import Dashboard from 'pages/Dashboard';
 import FazerDenuncia from 'pages/FazerDenuncia';
 import Students from 'pages/Students';
 import MyChildPage from 'pages/Dashboard/Pais/MyChildPage';
-import AddStudent from 'pages/Students/AddStudent';
+import AddStudent from 'pages/AddUser/AddStudent';
+import AddPais from 'pages/AddUser/AddPais';
 
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
                   <Route path='/dashboard/mychild/:id' element={<MyChildPage />} />
                   <Route path='/students' element={<Students />} />
                   <Route path='/students/add' element={<AddStudent />} />
+                  <Route path='/responsaveis/add' element={<AddPais />} />
                 </Routes>
               </>
             } />

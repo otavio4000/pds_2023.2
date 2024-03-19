@@ -1,4 +1,4 @@
-import styles from "./styles.module.css";
+import styles from "../styles.module.css";
 import wave from "assets/images/wave-1.svg";
 import {
     Card,
@@ -13,12 +13,15 @@ import {
     Button,
     ButtonGroup,
     FormErrorMessage,
-    Divider
+    Divider,
+    useToast
 } from "@chakra-ui/react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import api from "services/api";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { AxiosError } from "axios";
 
 const sampleStudentYears = [
     "1", "2", "3"
@@ -79,11 +82,16 @@ const schema = yup.object().shape({
 
 const AddStudent = () => {
 
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const toast = useToast();
+
     const { register, handleSubmit, getValues, formState: { errors }, reset } = useForm({
         resolver: yupResolver(schema),
     });
 
     const onSubmit = async (data: any) => {
+
+        console.log("Estou chamando onSubmit")
 
         const { turma, ano, historico_academico, ...rest } = data; 
 
@@ -97,8 +105,8 @@ const AddStudent = () => {
             historico_academico: arquivo_historico_academico
         }
 
-        console.log(post.historico_academico);
 
+        setIsLoading(true);
         try {
             const response = await api.postForm(
                 "/alunos/add", 
@@ -108,9 +116,34 @@ const AddStudent = () => {
                         Authorization: `Bearer ${localStorage.getItem("token")}` 
                     }
                 });
-            console.log(response) 
+            setIsLoading(false);
+            toast({
+                position: "top",
+                title: "Aluno cadastrado!",
+                description: "Obrigada por utilizar nossos serviços.",
+                status: "success",
+                duration: 9000,
+                isClosable: true,
+                containerStyle: {
+                    color: "white"
+                }
+            })
         } catch (error) {
-            console.log(error)
+            setIsLoading(false);
+            
+
+                toast({
+                    position: "top",
+                    title: "Algo deu errado!",
+                    description: "Por favor, tente novamente.",
+                    status: "error",
+                    duration: 9000,
+                    isClosable: true,
+                    containerStyle: {
+                        color: "white"
+                    }
+                })
+
         }
 
     }

@@ -33,7 +33,7 @@ const SideBar = (props: {
                     <PathButton linkTo="/dashboard" pathName={"Denúncias"} icon={Complaint} selected={path === "/dashboard"}/>
                     <PathButton linkTo="/students" pathName={"Alunos"} icon={Student} selected={path === "/students"}/>
                     <PathButton linkTo="/students/add" pathName={"Adicionar Aluno"} icon={AddStudent} selected={path === "/students/add"}/>
-
+                    <PathButton linkTo="/responsaveis/add" pathName={"Adicionar Responsável"} icon={AddStudent} selected={path === "/responsaveis/add"}/>
 
                 </div>
             </Slide>
