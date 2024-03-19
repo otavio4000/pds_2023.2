@@ -1,0 +1,28 @@
+.top_wave {
+    position: absolute;
+    top: -100px;
+    z-index: -1;
+    width: 100vw;
+}
+
+.bottom_wave {
+    position: absolute;
+    bottom: -60px; 
+    z-index: -1;
+    width: 100vw;
+}
+
+.container_main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh;
+
+    gap: 80px;
+}
+
+.filhos_container {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+}

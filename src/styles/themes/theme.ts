@@ -18,6 +18,12 @@ const theme = extendTheme({
       "50": "#464555",
       "100": "#3F3E4D",
       "200": "#33323F"
+    },
+    red: {
+      "50": "#DB6E5F"
+    },
+    grey: {
+      "50": "#CBD3DB"
     }
   },
   components: {
@@ -29,6 +35,9 @@ const theme = extendTheme({
             solid: {
                 bg: 'white',
                 padding: "10px 47px 10px 47px",
+              },
+            outline: {
+              padding: "10px 47px 10px 47px",
             },
             icon: {
               bg: 'transparent',

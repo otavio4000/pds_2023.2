@@ -92,6 +92,20 @@
     width: 30%;
 }
 
+.media_files input[type="file"] {
+    /* background-color: #0000ff; */
+    border: none;
+    height: fit-content;
+    padding: 0;
+    padding-left: 3px;
+    /* width: fit-content; */
+}
+
+.complaint_resgistration .media_files {
+    background-color: red;
+    display: flex;
+}
+
 .report_description textarea {
     height: 100%;
 }

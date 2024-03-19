@@ -48,11 +48,9 @@ function NavBar() {
         <>  
             
 
-            <div className={styles.container}
-                // style={path === "/login" ? { position: "absolute" } : { position: "unset" }}
-            >   
+            <div className={styles.container}>   
             <div className={styles.logo_controls}>
-                { (path === "/dashboard" || path === "/students") && <IconButton icon={MenuButton} handleClick={onToggle} /> }
+                { (path !== "/" && path !== "/login") && <IconButton icon={MenuButton} handleClick={onToggle} /> }
                 <Link to="/" className={styles.container_logo}>
                     <Logo className={styles.logo} />
                 </Link>
@@ -74,7 +72,7 @@ function NavBar() {
 
            
             
-            { (path === "/dashboard" || path === "/students") && <SideBar isOpen={isOpen} onToggle={onToggle}/> }
+            { (path !== "/" && path !== "/login") && <SideBar isOpen={isOpen} onToggle={onToggle}/> }
         </>
     );
 }
