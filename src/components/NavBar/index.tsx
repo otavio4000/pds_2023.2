@@ -12,14 +12,14 @@ import { useDisclosure } from "@chakra-ui/react";
 import axios from "axios";
 
 
-  
+
 function NavBar() {
     const [token, setToken] = useState<string>(() => localStorage.getItem('token') || '');
     const [redirected, setRedirected] = useState(false);
     const { isOpen, onToggle } = useDisclosure();
-    
+
     const navigate = useNavigate();
-    
+
     const location = useLocation();
     const path = location.pathname;
 
@@ -29,7 +29,7 @@ function NavBar() {
         window.location.href = '/';
 
     };
-    
+
     const validToken = async () => {
         try {
             const response = await api.post('/authentication/token/verify/', { token });
@@ -40,41 +40,59 @@ function NavBar() {
             return false;
         }
 
-    
+
     };
 
+    /**
+     * Logout: só deve aparecer se a pessoa estiver logada
+     * NavBar + sidebar: só deve aparecer nas telas da administração
+     * NavBar: só não deve aparecer nas telas de login e hom
+     */
 
-    return (
-        <>  
-            
+    const noNavBarPaths = ["/"];
+    const sideBarPath = "/dashboard";
 
-            <div className={styles.container}>   
-            <div className={styles.logo_controls}>
-                { (path !== "/" && path !== "/login") && <IconButton icon={MenuButton} handleClick={onToggle} /> }
-                <Link to="/" className={styles.container_logo}>
-                    <Logo className={styles.logo} />
-                </Link>
-            </div>
-                {token && path !== "/login" &&
-                    <Button
-                    onClick={logout}
-                    bg="green.50"
-                    colorScheme="green"
-                    style={{
-                        padding: "2px 12px"
-                    }}
-                    type="submit"
-                    >
-                        Logout
-                    </Button>
-                }
-            </div>
+    const shouldHaveNavBar = !noNavBarPaths.includes(path);
+    const shouldHaveSideBar = path.startsWith(sideBarPath);
 
-           
-            
-            { (path !== "/" && path !== "/login") && <SideBar isOpen={isOpen} onToggle={onToggle}/> }
-        </>
-    );
+    if (shouldHaveNavBar) {
+        return (
+            <>
+
+
+                <div className={styles.container}>
+                    <div className={styles.logo_controls}>
+                        {shouldHaveSideBar && <IconButton icon={MenuButton} handleClick={onToggle} />}
+                        <Link to="/" className={styles.container_logo}>
+                            <Logo className={styles.logo} />
+                        </Link>
+                    </div>
+                    {token && (path !== "/login" && path !== "/denuncia" && path !== "/responsaveis/add") &&
+                        <Button
+                            onClick={logout}
+                            bg="green.50"
+                            colorScheme="green"
+                            style={{
+                                padding: "2px 12px"
+                            }}
+                            type="submit"
+                        >
+                            Logout
+                        </Button>
+                    }
+                </div>
+
+
+
+                {shouldHaveSideBar && <SideBar isOpen={isOpen} onToggle={onToggle} />}
+            </>
+        );
+    }
+
+    return <></>
+
+
+
 }
 
 export default NavBar;
