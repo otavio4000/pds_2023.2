@@ -21,7 +21,8 @@ const GenerateToken = () => {
 
         setIsLoading(true);
         try {
-            const token = await api.post("/responsavel/token");
+            const response = await api.post("/responsavel/token");
+            
             setIsLoading(false);
 
 
