@@ -11,6 +11,7 @@ import Students from 'pages/Students';
 import MyChildPage from 'pages/Dashboard/Pais/MyChildPage';
 import AddStudent from 'pages/AddUser/AddStudent';
 import AddPais from 'pages/AddUser/AddPais';
+import GenerateToken from 'pages/GenerateToken';
 
 
 function App() {
@@ -33,8 +34,9 @@ function App() {
                   <Route path='/denuncia' element={<FazerDenuncia />} />
                   <Route path='/dashboard' element={<Dashboard />} />
                   <Route path='/dashboard/mychild/:id' element={<MyChildPage />} />
-                  <Route path='/students' element={<Students />} />
-                  <Route path='/students/add' element={<AddStudent />} />
+                  <Route path='/dashboard/students' element={<Students />} />
+                  <Route path='/dashboard/students/add' element={<AddStudent />} />
+                  <Route path='/dashboard/generate_token' element={<GenerateToken />} />
                   <Route path='/responsaveis/add' element={<AddPais />} />
                 </Routes>
               </>

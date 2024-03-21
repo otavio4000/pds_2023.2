@@ -18,7 +18,7 @@ const schema = yup.object().shape({
             "Por favor, insira um CPF válido.",
             value => {
                 const valueToString = value.toString();
-                
+
                 if (valueToString.length == 11) {
                     return true;
                 }
@@ -52,7 +52,7 @@ const AddPais = () => {
         const cpf = username as number;
         const cpfAsString = cpf.toString();
 
-        const post = { 
+        const post = {
             username: cpfAsString,
             ...rest
         }
@@ -60,15 +60,15 @@ const AddPais = () => {
         setIsLoading(true);
         try {
             const response = await api.postForm(
-                "/responsaveis/create", 
+                "/responsavel/create",
                 post,
                 {
                     headers: {
-                        Authorization: `Bearer ${localStorage.getItem("token")}` 
+                        Authorization: `Bearer ${localStorage.getItem("token")}`
                     }
                 });
             setIsLoading(false);
-            
+
             toast({
                 position: "top",
                 title: "Responsável cadastrado!",
@@ -81,7 +81,7 @@ const AddPais = () => {
                 }
             })
 
-            console.log(response) 
+            console.log(response)
         } catch (error) {
             setIsLoading(false);
 
@@ -113,6 +113,12 @@ const AddPais = () => {
                         </Heading>
                     </CardHeader>
                     <CardBody className={styles.body}>
+                        <Heading size="md" textAlign="start" className={styles.section_header}>
+                            Mantenha-se informado sobre o bem-estar e segurança de seus filhos
+                        </Heading>
+                        <div className={styles.section_header_helper_text}>
+                            Seu cadastro no nosso sistema vai permitir que você recebe atualizações regulares sobre o bem-estar e segurança dos seus filhos na escola. 
+                        </div>
                         <FormControl isInvalid={!!errors.username}>
                             <FormLabel>CPF</FormLabel>
                             <Input {...register("username")} type="text" placeholder="Ex: XXX.XXX.XXX-XX" />
@@ -153,8 +159,8 @@ const AddPais = () => {
                             <Input {...register("endereco")} type="text" placeholder="Insira seu endereço aqui" />
                             <FormErrorMessage className={styles.input_error_message}> {errors.endereco?.message} </FormErrorMessage>
                         </FormControl>
-                    
-                        
+
+
                         <ButtonGroup className={styles.buttons}>
                             <Button
                                 type="submit"

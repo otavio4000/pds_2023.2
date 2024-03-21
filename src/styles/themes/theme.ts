@@ -24,6 +24,9 @@ const theme = extendTheme({
     },
     grey: {
       "50": "#CBD3DB"
+    },
+    black: {
+      "50": "#3f3f3f"
     }
   },
   components: {
