@@ -1,0 +1,56 @@
+.container {
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px 20px;
+}
+
+.divider {
+    margin: 10px 0px;
+}
+
+.main_body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    justify-content: space-between;
+}
+
+.token_group {
+    display: flex;
+}
+
+.token_button {
+    z-index: 2;
+}
+
+.token_container {
+    background-color: white;
+
+    /* background-color: orange; */
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: var(--chakra-colors-black-50);
+    margin-left: -2px;
+    z-index: 0;
+
+    padding: 0px;
+
+    width: 150px;
+}
+
+.send_to_whatsapp {
+    width: fit-content;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}

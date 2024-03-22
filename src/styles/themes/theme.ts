@@ -24,6 +24,9 @@ const theme = extendTheme({
     },
     grey: {
       "50": "#CBD3DB"
+    },
+    black: {
+      "50": "#3f3f3f"
     }
   },
   components: {
@@ -33,7 +36,6 @@ const theme = extendTheme({
         // },
         variants: {
             solid: {
-                bg: 'white',
                 padding: "10px 47px 10px 47px",
               },
             outline: {
