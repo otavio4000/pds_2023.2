@@ -36,7 +36,6 @@ const theme = extendTheme({
         // },
         variants: {
             solid: {
-                bg: 'white',
                 padding: "10px 47px 10px 47px",
               },
             outline: {

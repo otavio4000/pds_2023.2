@@ -4,8 +4,9 @@ import wave from "assets/images/wave-1.svg";
 import {
     Card, CardHeader, CardBody,
     Heading, FormControl, FormLabel, FormErrorMessage,
-    Input, Button, ButtonGroup, useToast
+    Input, Button, ButtonGroup, useToast, useDisclosure
 } from "@chakra-ui/react";
+import TokenVerifyModal from "./components/TokenVerifyModal";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import api from "services/api";
@@ -35,10 +36,23 @@ const schema = yup.object().shape({
     endereco: yup.string().required("Por favor, insira um endereço.")
 })
 
+interface Responsavel {
+    username: string, 
+    first_name: string,
+    last_name: string,
+    email: string,
+    profissao: string,
+    password: string,
+    telefone: string,
+    endereco: string,
+}
+
 
 const AddPais = () => {
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const { isOpen, onOpen, onClose } = useDisclosure(); 
+    const [post, setPost] = useState<Responsavel>();
     const toast = useToast();
 
     const { register, handleSubmit, getValues, formState: { errors }, reset } = useForm({
@@ -52,36 +66,19 @@ const AddPais = () => {
         const cpf = username as number;
         const cpfAsString = cpf.toString();
 
-        const post = {
+        const post: Responsavel = {
             username: cpfAsString,
             ...rest
         }
 
+        
+
         setIsLoading(true);
         try {
-            const response = await api.postForm(
-                "/responsavel/create",
-                post,
-                {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("token")}`
-                    }
-                });
-            setIsLoading(false);
 
-            toast({
-                position: "top",
-                title: "Responsável cadastrado!",
-                description: "Obrigada por utilizar nossos serviços.",
-                status: "success",
-                duration: 9000,
-                isClosable: true,
-                containerStyle: {
-                    color: "white"
-                }
-            })
+            setPost(post);
+            onOpen(); 
 
-            console.log(response)
         } catch (error) {
             setIsLoading(false);
 
@@ -154,7 +151,7 @@ const AddPais = () => {
                             <Input {...register("telefone")} type="text" placeholder="Insira seu número de celular aqui" />
                             <FormErrorMessage className={styles.input_error_message}> {errors.telefone?.message} </FormErrorMessage>
                         </FormControl>
-                        <FormControl isInvalid={!!errors.telefone}>
+                        <FormControl isInvalid={!!errors.endereco}>
                             <FormLabel>Endereço</FormLabel>
                             <Input {...register("endereco")} type="text" placeholder="Insira seu endereço aqui" />
                             <FormErrorMessage className={styles.input_error_message}> {errors.endereco?.message} </FormErrorMessage>
@@ -176,6 +173,8 @@ const AddPais = () => {
                     </CardBody>
                 </Card>
             </form>
+
+            <TokenVerifyModal isOpen={isOpen} onOpen={onOpen} onClose={onClose} responsavel={post} setIsLoading={setIsLoading}/>
         </div>
     )
 }

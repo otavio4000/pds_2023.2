@@ -5,15 +5,15 @@ import { Button } from "@chakra-ui/react";
 const IconButton = (props: {
     icon: ElementType,
     handleClick: () => void,
-    style?: CSSProperties 
+    style?: CSSProperties
 }) => {
 
-    const { icon: Icon, handleClick, style } = props; 
+    const { icon: Icon, handleClick, style } = props;
 
     return (
         <div className={styles.container}>
             <Button variant="icon" className={styles.button} onClick={handleClick} style={style}>
-                <Icon className={styles.button_icon} /> 
+                <Icon className={styles.button_icon} />
             </Button>
         </div>
 

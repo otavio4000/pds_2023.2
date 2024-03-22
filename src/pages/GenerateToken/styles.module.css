@@ -24,14 +24,33 @@
     display: flex;
 }
 
+.token_button {
+    z-index: 2;
+}
+
 .token_container {
     background-color: white;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
+
+    /* background-color: orange; */
 
     display: flex;
+    align-items: center;
     justify-content: center;
     font-weight: bold;
     color: var(--chakra-colors-black-50);
-    padding: 0px 8px;
+    margin-left: -2px;
+    z-index: 0;
+
+    padding: 0px;
+
+    width: 150px;
+}
+
+.send_to_whatsapp {
+    width: fit-content;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
 }
