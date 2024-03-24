@@ -1,0 +1,19 @@
+.icon_container {
+    background-color: var(--chakra-colors-lilac-50);
+    height: 40px;
+    width: 40px;
+    border-radius: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.v_domestica {
+    background-color: var(--chakra-colors-orange-50);
+}
+
+.icon {
+    height: 70%;
+    width: 70%;
+}
