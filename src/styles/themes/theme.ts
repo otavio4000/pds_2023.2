@@ -19,14 +19,21 @@ const theme = extendTheme({
       "100": "#3F3E4D",
       "200": "#33323F"
     },
+    lilac: {
+      "50": "#7C75BE"
+    },
     red: {
       "50": "#DB6E5F"
     },
     grey: {
-      "50": "#CBD3DB"
+      "50": "#CBD3DB",
+      "100": "#F3F7FA"
     },
     black: {
       "50": "#3f3f3f"
+    },
+    orange: {
+      "50": "#FE922F"
     }
   },
   components: {

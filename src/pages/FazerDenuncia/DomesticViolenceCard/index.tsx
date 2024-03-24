@@ -97,7 +97,7 @@ const DomesticViolenceCard = () => {
             violenceTypes: [],
         },
     });
-
+ 
     const onSubmit = async (data: any) => {
 
         // Aqui precisamos converter o objeto de form para o objeto que o backend espera: para isso, removemos o campo "violenceTypes" e adicionar os campos "v_fisica", "v_verbal", "bullying" e "assedio"

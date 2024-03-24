@@ -1,19 +1,22 @@
-.cardaqui {
-    display: flex;
-    flex-wrap: wrap;
-  }
-  
-  .card {
-    border: 1px solid #ccc;
-    padding: 10px;
-    margin: 10px;
-    display: flex; /* Garante que os elementos dentro do card fiquem em linha */
-    align-items: center; /* Alinha verticalmente os itens dentro do card */
-  }
-  
-  .icone {
-    width: 20px; /* Ajuste conforme necessário */
-    height: 20px; /* Ajuste conforme necessário */
-    margin-left: 10px; /* Ajuste conforme necessário */
-  }
-  
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* background-color: blue; */
+  height: 92.5%;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.icon_container {
+  height: 200px;
+}
+
+.icon {
+  height: 100%;
+}
