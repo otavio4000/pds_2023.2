@@ -39,6 +39,7 @@ interface AcompanhamentoDetails {
 const Header = () => {
 
     const { parentDashboardState } = useContext(ParentDashboardContext);
+    console.log("parentDashboardState", parentDashboardState)
 
     return (
         <Box className={styles.banner} style={{

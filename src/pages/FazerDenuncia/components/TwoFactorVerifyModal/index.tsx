@@ -47,7 +47,7 @@ const TwoFactorVerifyModal = (props: {
             if (report) {
                 // Tenta enviar a denúncia
                 try {
-                    const responseReport = await api.post("/denuncia/add", report);
+                    const responseReport = await api.postForm("/denuncia/add", report);
                     setIsLoading(false);
                     toast({
                         position: 'top',

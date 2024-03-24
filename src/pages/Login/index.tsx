@@ -15,6 +15,7 @@ function Login() {
         password:''
     })
     const [token, setToken] = useState<string>('');
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
@@ -33,10 +34,11 @@ function Login() {
             navigate("/dashboard");
         }
 
-    
+        
+        setIsLoading(true);
         api.post('/authentication/token/', post)
             .then(response => {
-
+                setIsLoading(false);
                 console.log(response);
 
                 const token  = response.data.access; 
@@ -46,11 +48,11 @@ function Login() {
                 const payload = JSON.parse(atob(token.split('.')[1]));
                 const userId = payload.user_id;
                 localStorage.setItem('user_id', userId);
-                localStorage.setItem("user_type", "coord");
 
                 navigate("/dashboard");
             })
             .catch(err => {
+                setIsLoading(false);
                 console.log(err);
             });
     }
@@ -78,14 +80,13 @@ function Login() {
                                     VOLTAR
                                 </Button>
                             </Link>
-                            {/* <Link to="/dashboard"> */}
                                 <Button
                                 type="submit"
                                 color="white.50"
                                 bg="green.50"
                                 colorScheme="green"
+                                isLoading={isLoading}
                                 >ENVIAR</Button>
-                            {/* </Link> */}
                         </ButtonGroup>
                     </VStack>
                 </CardBody>

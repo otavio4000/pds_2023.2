@@ -7,7 +7,7 @@
 
 .bottom_wave {
     position: absolute;
-    bottom: -60px; 
+    bottom: 0px; 
     z-index: -1;
     width: 100vw;
 }
@@ -18,11 +18,18 @@
     justify-content: center;
     height: 100vh;
 
-    gap: 80px;
+    height: 91.7%;
+
+    gap: 20px;
 }
 
 .filhos_container {
     display: flex;
     justify-content: center;
     gap: 40px;
+}
+
+.skeletons {
+    align-self: center;
+    position: absolute;
 }

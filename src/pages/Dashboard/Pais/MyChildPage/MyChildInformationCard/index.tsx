@@ -5,7 +5,10 @@ import { useState, useContext } from "react";
 import Notification from "../components/Notification";
 import AcompanhamentoCard from "../components/AcompanhamentoCard";
 import { Heading, Box, Divider, Text } from "@chakra-ui/react";
+import { checkIfUserHasAuthorization } from "utils/checkIfUserHasAuthorization";
+import { AuthorizationType } from "enums/authorizationType";
 import { ParentDashboardContext } from "context/ParentDashboardContext";
+import NotAuthorized from "components/NotAuthorized";
 
 interface INotification {
     type: string,
@@ -67,39 +70,45 @@ const MyChildInformationCard = () => {
         },
     ])
 
-    return (
-        <div className={styles.container_main}>
-            <div className={styles.main}>
-                <div className={styles.notifications}>
-                    <Heading size="lg" className={styles.heading}>
-                        Notificações Recentes
-                    </Heading>
-                    {
-                        notifications.map(notification => {
-                            return(
-                                <Notification info={notification} />
-                            )
-                        })
-                    }
-
-                </div>
-                <div className={styles.reports}>
-                    <Heading size="lg" className={styles.heading}>
-                        Acompanhamento
-                    </Heading>
-                    <div className={styles.reports_cards}>
+    if (checkIfUserHasAuthorization(AuthorizationType.Parent)) {
+        return (
+            <div className={styles.container_main}>
+                <div className={styles.main}>
+                    <div className={styles.notifications}>
+                        <Heading size="lg" className={styles.heading}>
+                            Notificações Recentes
+                        </Heading>
                         {
-                            acompanhamentos.map(acompanhamento => {
+                            notifications.map(notification => {
                                 return(
-                                    <AcompanhamentoCard acompanhamento={acompanhamento} />
+                                    <Notification info={notification} key={notification.title}/>
                                 )
                             })
                         }
+    
+                    </div>
+                    <div className={styles.reports}>
+                        <Heading size="lg" className={styles.heading}>
+                            Acompanhamento
+                        </Heading>
+                        <div className={styles.reports_cards}>
+                            {
+                                acompanhamentos.map(acompanhamento => {
+                                    return(
+                                        <AcompanhamentoCard acompanhamento={acompanhamento} key={acompanhamento.title} />
+                                    )
+                                })
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    )
+        ) 
+    } else {
+        return <NotAuthorized />
+    }
+
+
 }
 
 export default MyChildInformationCard;
