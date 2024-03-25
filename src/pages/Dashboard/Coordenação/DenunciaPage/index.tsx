@@ -17,7 +17,7 @@ import TypeOfViolenceIcon from "../DenunciaCard/TypeOfViolenceIcon";
 import { useEffect, useState } from "react";
 import { getBrazilianDate } from "utils/convertTimestampToBRDate";
 import api from "services/api";
-
+import axios from "axios";
 interface Denuncia {
 	matricula: number,
 	relato: string,
@@ -39,6 +39,7 @@ interface Denuncia {
 	assedio: "yes" | "no",
 	data_ocorrido: string,
 	pontuacao: number,
+    status:string
 };
 
 
@@ -46,6 +47,26 @@ const DenunciaPage = () => {
 
     const { id } = useParams(); 
     const [denuncia, setDenuncia] = useState<Denuncia>();
+
+    const [status, setStatus] = useState('não investigado');
+
+    const handleMarcarResolvido = () => {
+        const token = localStorage.getItem("token");
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        };
+        axios.patch(`http://127.0.0.1:8000/api/v1/denuncia/edit/${id}/`, { status: 'resolvido' }, config)
+            .then(response => {
+                console.log('Denúncia marcada como resolvida:', response.data);
+                setStatus("resolvido");
+            })
+            .catch(error => {
+                console.error('Erro ao marcar a denúncia como resolvida:', error);
+            });
+    };
+    
 
     useEffect(() => {
         const fetchDenuncia = async () => {
@@ -123,7 +144,7 @@ const DenunciaPage = () => {
                                 <Button colorScheme="blue" leftIcon={<PlusSign width="30px"/>}>
                                     Adicionar andamento
                                 </Button>
-                                <Button bg="pink.50"
+                                <Button onClick={handleMarcarResolvido} bg="pink.50"
                                 color="white"
                                 _hover={{ bgColor: "pink.100" }}
                                 _active={{ bgColor: "pink.200" }}>
