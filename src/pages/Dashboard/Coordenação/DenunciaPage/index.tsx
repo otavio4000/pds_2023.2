@@ -60,7 +60,7 @@ const DenunciaPage = () => {
                 Authorization: `Bearer ${token}`
             }
         };
-        axios.patch(`http://127.0.0.1:8000/api/v1/denuncia/edit/${id}/`, { status: 'resolvido' }, config)
+        axios.patch(`https://backendd-vk3y.onrender.com/api/v1/denuncia/edit/${id}/`, { status: 'resolvido' }, config)
             .then(response => {
                 console.log('Denúncia marcada como resolvida:', response.data);
                 setStatus("resolvido");
