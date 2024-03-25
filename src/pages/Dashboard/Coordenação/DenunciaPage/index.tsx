@@ -18,6 +18,8 @@ import { useEffect, useState } from "react";
 import { getBrazilianDate } from "utils/convertTimestampToBRDate";
 import api from "services/api";
 import axios from "axios";
+
+
 interface Denuncia {
 	matricula: number,
 	relato: string,
@@ -49,6 +51,7 @@ const DenunciaPage = () => {
     const [denuncia, setDenuncia] = useState<Denuncia>();
 
     const [status, setStatus] = useState('não investigado');
+    const [redirect, setRedirect] = useState(false);
 
     const handleMarcarResolvido = () => {
         const token = localStorage.getItem("token");
@@ -61,7 +64,9 @@ const DenunciaPage = () => {
             .then(response => {
                 console.log('Denúncia marcada como resolvida:', response.data);
                 setStatus("resolvido");
+                window.location.href = '/dashboard';
             })
+                
             .catch(error => {
                 console.error('Erro ao marcar a denúncia como resolvida:', error);
             });
@@ -83,6 +88,7 @@ const DenunciaPage = () => {
 
         fetchDenuncia();
     }, [])
+    
 
     if (denuncia) {
 
