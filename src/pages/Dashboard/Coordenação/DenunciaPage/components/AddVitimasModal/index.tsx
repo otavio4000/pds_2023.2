@@ -161,7 +161,7 @@ const AddVitimasModal = (props: {
             <ModalOverlay />
             <ModalContent bg="white">
                 <ModalHeader paddingBottom="0px">
-                    Adicionar praticantes
+                    Adicionar Vítimas
                 </ModalHeader>
                 <ModalBody className={styles.body}>
                     {
