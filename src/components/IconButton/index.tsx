@@ -5,15 +5,17 @@ import { Button } from "@chakra-ui/react";
 const IconButton = (props: {
     icon: ElementType,
     handleClick: () => void,
-    style?: CSSProperties
+    style?: CSSProperties,
+    title?: string,
+    isLoading?: boolean
 }) => {
 
-    const { icon: Icon, handleClick, style } = props;
+    const { icon: Icon, handleClick, style, title, isLoading } = props;
 
     return (
         <div className={styles.container}>
-            <Button variant="icon" className={styles.button} onClick={handleClick} style={style}>
-                <Icon className={styles.button_icon} />
+            <Button isLoading={isLoading} variant="icon" className={styles.button} onClick={handleClick} style={style}>
+                <Icon className={styles.button_icon} title={title} />
             </Button>
         </div>
 
