@@ -16,6 +16,8 @@ import {
     useDisclosure,
     Input,
     useToast,
+    Skeleton,
+    Stack
 } from "@chakra-ui/react";
 import {
     Step,
@@ -42,6 +44,7 @@ import IconButton from "components/IconButton";
 import AddAndamentoModal from "./components/AddAndamentoModal";
 
 import axios from "axios";
+import LoadingSkeleton from "components/LoadingSkeleton";
 
 
 interface Denuncia {
@@ -190,12 +193,12 @@ const DenunciaPage = () => {
                 setStatus("resolvido");
                 window.location.href = '/dashboard';
             })
-                
+
             .catch(error => {
                 console.error('Erro ao marcar a denúncia como resolvida:', error);
             });
     };
-    
+
 
     useEffect(() => {
         const fetchDenuncia = async () => {
@@ -257,12 +260,12 @@ const DenunciaPage = () => {
             setMedidas(medidas.data);
             setGettingMedidas(false);
 
-            
+
         }
 
         fetchDenuncia();
     }, [])
-    
+
 
 
 
@@ -324,9 +327,6 @@ const DenunciaPage = () => {
                             <CardBody>
                                 <div className={styles.info}>
                                     <ButtonGroup className={styles.action_buttons}>
-                                        {/* <Button colorScheme="teal">
-                                        Adicionar título
-                                    </Button> */}
                                         <Button colorScheme="red" onClick={onOpenAddPraticante}>
                                             Adicionar praticantes
                                         </Button>
@@ -374,8 +374,7 @@ const DenunciaPage = () => {
                                     </div>
                                     {
                                         isGettingMedidas ?
-                                            <>
-                                                To carregando</>
+                                            <LoadingSkeleton justifyContent="flex-start" />
                                             :
                                             <div className={styles.andamento}>
                                                 <b>Andamento(s):</b> {activeStep == 0 && "Ainda não foram registrados andamentos."}
@@ -399,7 +398,7 @@ const DenunciaPage = () => {
                                                                     activeStep == 0 && <div className={styles.blank}></div>
                                                                 }
                                                                 {
-                                                                    index == 0 || index == 2?
+                                                                    index == 0 || index == 2 ?
                                                                         <div className={styles.blank}></div> :
                                                                         <div className={styles.medidas}>
                                                                             {
@@ -456,8 +455,7 @@ const DenunciaPage = () => {
         }
     } else {
         return (
-            <>
-                TO carregando</>
+            <LoadingSkeleton justifyContent="center" />
         )
     }
 

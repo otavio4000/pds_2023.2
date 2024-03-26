@@ -22,6 +22,7 @@ import { useEffect, useState } from "react";
 import api from "services/api";
 import { useParams } from "react-router";
 import TypeOfViolenceIcon from "pages/Dashboard/Coordenação/DenunciaCard/TypeOfViolenceIcon";
+import LoadingSkeleton from "components/LoadingSkeleton";
 
 interface Student {
     contato_substancias_ilicitas: "yes" | "no",
@@ -241,8 +242,7 @@ const MyChildDenunciaPage = () => {
                                     }
                                     {
                                         isGettingMedidas ?
-                                            <>
-                                                To carregando</>
+                                            <LoadingSkeleton justifyContent="center" />
                                             :
                                             <div className={styles.andamento}>
                                                 <b>Andamento(s):</b> {activeStep == 0 && "Ainda não foram registrados andamentos."}
@@ -302,8 +302,7 @@ const MyChildDenunciaPage = () => {
                 </>
             ) 
         } else {
-            return <>
-            To carregando </>
+            return <LoadingSkeleton justifyContent="center" />
         }
     } else {
         return (

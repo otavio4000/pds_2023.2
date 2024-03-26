@@ -25,6 +25,7 @@ import { useEffect, useState } from "react";
 import { ReactComponent as CancelSign } from "assets/icons/cancel-svgrepo-com.svg";
 import { ReactComponent as PlusSign } from "assets/icons/add-plus-svgrepo-com-pink.svg";
 import api from "services/api";
+import LoadingSkeleton from "components/LoadingSkeleton";
 
 interface Student {
     contato_substancias_ilicitas: "yes" | "no",
@@ -228,7 +229,7 @@ const AddPraticantesModal = (props: {
                                 </Table>
                             </TableContainer>
                             :
-                            <p>To carregando</p> 
+                            <LoadingSkeleton justifyContent="center" />
                     }
 
                     <Button onClick={alterPraticantes} variant="pink" isLoading={isLoadingRequest}>
