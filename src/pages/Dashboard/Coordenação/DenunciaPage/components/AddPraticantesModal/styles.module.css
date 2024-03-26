@@ -1,0 +1,9 @@
+.students {
+    margin-bottom: 15px;
+}
+
+.body {
+    padding-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}

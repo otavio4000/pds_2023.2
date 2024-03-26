@@ -11,4 +11,7 @@ export interface DenunciaRequest {
     data_ocorrido: string;
     telefone: string;
     codigo: string;
+    arquivo_1: FileList;
+    arquivo_2: null;
+    arquivo_3: null;
 }
