@@ -35,10 +35,14 @@ import TypeOfViolenceIcon from "../DenunciaCard/TypeOfViolenceIcon";
 import { useEffect, useState } from "react";
 import { getBrazilianDate } from "utils/convertTimestampToBRDate";
 import api from "services/api";
+
 import AddPraticantesModal from "./components/AddPraticantesModal";
 import AddVitimasModal from "./components/AddVitimasModal";
 import IconButton from "components/IconButton";
 import AddAndamentoModal from "./components/AddAndamentoModal";
+
+import axios from "axios";
+
 
 interface Denuncia {
     matricula: number,
@@ -63,6 +67,7 @@ interface Denuncia {
     assedio: "yes" | "no",
     data_ocorrido: string,
     pontuacao: number,
+
 };
 
 interface Student {
@@ -169,6 +174,29 @@ const DenunciaPage = () => {
 
     }
 
+    const [status, setStatus] = useState('não investigado');
+    const [redirect, setRedirect] = useState(false);
+
+    const handleMarcarResolvido = () => {
+        const token = localStorage.getItem("token");
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        };
+        axios.patch(`https://backendd-vk3y.onrender.com/api/v1/denuncia/edit/${id}/`, { status: 'resolvido' }, config)
+            .then(response => {
+                console.log('Denúncia marcada como resolvida:', response.data);
+                setStatus("resolvido");
+                window.location.href = '/dashboard';
+            })
+                
+            .catch(error => {
+                console.error('Erro ao marcar a denúncia como resolvida:', error);
+            });
+    };
+    
+
     useEffect(() => {
         const fetchDenuncia = async () => {
 
@@ -234,6 +262,7 @@ const DenunciaPage = () => {
 
         fetchDenuncia();
     }, [])
+    
 
 
 
@@ -399,6 +428,7 @@ const DenunciaPage = () => {
                                             </div>
                                     }
                                 </div>
+
                             </CardBody>
                             <CardFooter>
                                 <ButtonGroup>
@@ -406,6 +436,7 @@ const DenunciaPage = () => {
                                         Adicionar andamento
                                     </Button>
                                     <Button bg="pink.50"
+                                        onClick={handleMarcarResolvido}
                                         color="white"
                                         _hover={{ bgColor: "pink.100" }}
                                         _active={{ bgColor: "pink.200" }}>
@@ -420,6 +451,7 @@ const DenunciaPage = () => {
                     <AddVitimasModal denunciaId={denuncia.id} currentVitimas={vitimas} onClose={onCloseAddVitima} onOpen={onOpenAddVitima} isOpen={isOpenAddVitima} />
                     <AddAndamentoModal denunciaId={denuncia.id} onClose={onCloseAddAndamento} onOpen={onOpenAddAndamento} isOpen={isOpenAddAndamento} />
                 </>
+
             )
         }
     } else {

@@ -29,6 +29,7 @@ interface Denuncia {
 	assedio: "yes" | "no",
 	data_ocorrido: string,
 	pontuacao: number,
+	status: string
 };
 
 
@@ -99,6 +100,7 @@ const Coordenacao = () => {
 
 					{denuncias
 						? denuncias
+							.filter(denuncia => denuncia.status !== 'resolvido')
 							.sort((a, b) => new Date(b.data_ocorrido).getTime() - new Date(a.data_ocorrido).getTime())
 							.slice(0, 5)
 							.map((denuncia) => (
@@ -116,6 +118,7 @@ const Coordenacao = () => {
 				<div className={styles.cards_container}>
 					{denuncias
 						? denuncias
+							.filter(denuncia => denuncia.status !== 'resolvido')
 							.sort((a, b) => b.pontuacao - a.pontuacao)
 							.slice(0, 5)
 							.map((denuncia) => (
@@ -133,6 +136,7 @@ const Coordenacao = () => {
 				<div className={styles.cards_container}>
 					{denuncias
 						? denuncias
+							.filter(denuncia => denuncia.status !== 'resolvido')
 							.sort((a, b) => b.pontuacao - a.pontuacao)
 							.map((denuncia) => (
 								<DenunciaCard key={denuncia.id} denuncia={denuncia}/>
