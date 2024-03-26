@@ -89,21 +89,23 @@ const AddStudent = () => {
         resolver: yupResolver(schema),
     });
 
+    
     const onSubmit = async (data: any) => {
-
+        
         console.log("Estou chamando onSubmit")
-
+        
         const { turma, ano, historico_academico, ...rest } = data; 
-
+        
         const fileList = historico_academico as FileList; 
         const arquivo_historico_academico = fileList.item(0);
-
-
+        
+        
         const post = {
             ...rest, 
             turma_ano: `${ano} Ano Turma ${turma}`,
             historico_academico: arquivo_historico_academico
         }
+        console.log(post)
 
 
         setIsLoading(true);

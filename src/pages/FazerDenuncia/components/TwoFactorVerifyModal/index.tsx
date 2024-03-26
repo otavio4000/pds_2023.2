@@ -36,6 +36,8 @@ const TwoFactorVerifyModal = (props: {
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(schema),
     });
+    
+    console.log(report);
 
     const onSubmit = async (data: any) => {
 
@@ -46,6 +48,8 @@ const TwoFactorVerifyModal = (props: {
 
             if (report) {
                 // Tenta enviar a denúncia
+
+
                 try {
                     const responseReport = await api.postForm("/denuncia/add", report);
                     setIsLoading(false);

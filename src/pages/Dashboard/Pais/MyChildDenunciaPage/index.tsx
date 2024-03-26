@@ -1,23 +1,10 @@
 import { checkIfUserHasAuthorization } from "utils/checkIfUserHasAuthorization";
 import styles from "./styles.module.css";
-import { useParams } from "react-router";
-import { ReactComponent as PlusSign } from "assets/icons/add-plus-svgrepo-com.svg";
-import { ReactComponent as Edit } from "assets/icons/edit-3-svgrepo-com.svg";
-import { ReactComponent as Confirm } from "assets/icons/confirm-svgrepo-com.svg";
 import { AuthorizationType } from "enums/authorizationType";
+import NotAuthorized from "components/NotAuthorized";
+import { getBrazilianDate } from "utils/convertTimestampToBRDate";
 import {
-    Card,
-    CardHeader,
-    CardBody,
-    CardFooter,
-    ButtonGroup,
-    Button,
-    Heading,
-    useDisclosure,
-    Input,
-    useToast,
-} from "@chakra-ui/react";
-import {
+    Card, CardBody, CardHeader,
     Step,
     StepDescription,
     StepIcon,
@@ -29,16 +16,27 @@ import {
     Stepper,
     useSteps,
     Box,
+    Heading, 
 } from "@chakra-ui/react";
-import NotAuthorized from "components/NotAuthorized";
-import TypeOfViolenceIcon from "../DenunciaCard/TypeOfViolenceIcon";
 import { useEffect, useState } from "react";
-import { getBrazilianDate } from "utils/convertTimestampToBRDate";
 import api from "services/api";
-import AddPraticantesModal from "./components/AddPraticantesModal";
-import AddVitimasModal from "./components/AddVitimasModal";
-import IconButton from "components/IconButton";
-import AddAndamentoModal from "./components/AddAndamentoModal";
+import { useParams } from "react-router";
+import TypeOfViolenceIcon from "pages/Dashboard/Coordenação/DenunciaCard/TypeOfViolenceIcon";
+
+interface Student {
+    contato_substancias_ilicitas: "yes" | "no",
+    cpf: string,
+    data_nascimento: string
+    engajamento_familia: string,
+    historico_academico: string,
+    historico_faltas: number
+    id: number,
+    matricula: number,
+    nome: string
+    observacoes: string,
+    situacao_familiar: string,
+    turma_ano: string
+}
 
 interface Denuncia {
     matricula: number,
@@ -65,20 +63,6 @@ interface Denuncia {
     pontuacao: number,
 };
 
-interface Student {
-    contato_substancias_ilicitas: "yes" | "no",
-    cpf: string,
-    data_nascimento: string
-    engajamento_familia: string,
-    historico_academico: string,
-    historico_faltas: number
-    id: number,
-    matricula: number,
-    nome: string
-    observacoes: string,
-    situacao_familiar: string,
-    turma_ano: string
-}
 
 interface Medida {
     acao: string,
@@ -87,93 +71,28 @@ interface Medida {
     id: number
 }
 
-
-const DenunciaPage = () => {
-
-    const { id } = useParams();
-    const [editingTitle, setEditingTitle] = useState<boolean>();
-    const [isLoading, setIsLoading] = useState<boolean>();
-    const [isGettingMedidas, setGettingMedidas] = useState<boolean>(true);
-    const [title, setTitle] = useState<string>("Denúncia");
-    const [denuncia, setDenuncia] = useState<Denuncia>();
-    const [praticantes, setPraticantes] = useState<Array<Student>>();
-    const [vitimas, setVitimas] = useState<Array<Student>>();
-    const [medidas, setMedidas] = useState<Array<Medida>>();
-    const { isOpen: isOpenAddPraticante, onOpen: onOpenAddPraticante, onClose: onCloseAddPraticante } = useDisclosure();
-    const { isOpen: isOpenAddVitima, onOpen: onOpenAddVitima, onClose: onCloseAddVitima } = useDisclosure();
-    const { isOpen: isOpenAddAndamento, onOpen: onOpenAddAndamento, onClose: onCloseAddAndamento } = useDisclosure();
-    const toast = useToast();
-    const steps = [
-        { title: 'Início', description: 'A denúncia chegou à coordenação' },
-        { title: '', description: 'Medidas Tomadas' },
-        { title: '', description: 'Situação Resolvida' },
-    ]
-    const { activeStep, setActiveStep } = useSteps({
-        index: 1,
-        count: steps.length,
-    })
+const MyChildDenunciaPage = () => {
 
     const getNameFromStudents = (students: Array<Student>) => {
         return students.map((student) => {
-            return `${student.nome} (${student.matricula})`;
+            return `${student.nome}`;
         }).join(", ");
     }
 
-    const handleTitleChange = async () => {
-
-        setIsLoading(true);
-        try {
-            const response = await api.patch(`/denuncia/edit/${denuncia?.id}/`, {
-                titulo: title
-            }, {
-                headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem("token"),
-                }
-            })
-
-            setIsLoading(false);
-            toast({
-                position: "top",
-                title: "Título alterado com sucesso!",
-                description: "Obrigado por utilizar nossos serviços.",
-                status: "success",
-                duration: 2000,
-                isClosable: true,
-                containerStyle: {
-                    color: "white"
-                },
-                onCloseComplete: () => {
-                }
-            })
-
-        } catch (error) {
-            setIsLoading(false);
-            toast({
-                position: "top",
-                title: "Algo deu errado!",
-                description: "Por favor, tente novamente.",
-                status: "error",
-                duration: 2000,
-                isClosable: true,
-                containerStyle: {
-                    color: "white"
-                },
-                onCloseComplete: () => {
-                }
-            })
-
-        }
-
-        setEditingTitle(editingState => !editingState);
-
-
-    }
+    const { denunciaId } = useParams();
+    const [isGettingMedidas, setGettingMedidas] = useState<boolean>();
+    const [praticantes, setPraticantes] = useState<Array<Student>>();
+    const [vitimas, setVitimas] = useState<Array<Student>>();
+    const [medidas, setMedidas] = useState<Array<Medida>>();
+    const [denuncia, setDenuncia] = useState<Denuncia>();
+    const [title, setTitle] = useState<string>();
 
     useEffect(() => {
+
         const fetchDenuncia = async () => {
 
             const token = localStorage.getItem("token");
-            const response = await api.get(`/denuncia/${id}`, {
+            const response = await api.get(`/denuncia/${denunciaId}`, {
                 headers: {
                     "Authorization": "Bearer " + token
                 }
@@ -204,16 +123,16 @@ const DenunciaPage = () => {
                 return response.data;
             })
 
-            const praticantes = await Promise.all(praticantesPromises);
-            const vitimas = await Promise.all(vitimasPromises);
+            const praticantesObj = await Promise.all(praticantesPromises);
+            const vitimasObj = await Promise.all(vitimasPromises);
 
-            setPraticantes(praticantes);
-            setVitimas(vitimas);
+            setPraticantes(praticantesObj);
+            setVitimas(vitimasObj);
             setDenuncia(denuncia);
 
             denuncia.titulo ? setTitle(denuncia.titulo) : setTitle("Denúncia");
 
-            const medidas = await api.get(`/medida/denuncia/${id}`, {
+            const medidas = await api.get(`/medida/denuncia/${denunciaId}`, {
                 headers: {
                     "Authorization": "Bearer " + localStorage.getItem("token")
                 }
@@ -229,26 +148,41 @@ const DenunciaPage = () => {
             setMedidas(medidas.data);
             setGettingMedidas(false);
 
-            
+
         }
 
         fetchDenuncia();
+
     }, [])
 
 
+    useEffect(() => {
+        const fetchAndamentos = async () => {
+            const medidas = await api.get(`/medida/denuncia/${denunciaId}`, {
+                headers: {
+                    "Authorization": "Bearer " + localStorage.getItem("token")
+                }
+            })
 
 
+        }
+
+        fetchAndamentos();
+    }, [])
+
+    const steps = [
+        { title: 'Início', description: 'A denúncia chegou à coordenação' },
+        { title: '', description: 'Medidas Tomadas' },
+        { title: '', description: 'Situação Resolvida' },
+    ]
+    const { activeStep, setActiveStep } = useSteps({
+        index: 1,
+        count: steps.length,
+    })
 
 
-    if (denuncia) {
-
-        if (!(checkIfUserHasAuthorization(AuthorizationType.Coordenation) || checkIfUserHasAuthorization(AuthorizationType.Parent))) {
-
-            return (
-                <NotAuthorized />
-            )
-
-        } else {
+    if (checkIfUserHasAuthorization(AuthorizationType.Parent)) {
+        if (denuncia) {
 
             return (
                 <>
@@ -256,24 +190,13 @@ const DenunciaPage = () => {
                         <Card className={styles.card}>
                             <CardHeader className={styles.header}>
                                 <div className={styles.title}>
-                                    {
-                                        editingTitle ?
-                                            <Input onChange={e => setTitle(e.target.value)} className={styles.title_input} type="text" placeholder="Insira aqui um título" defaultValue={denuncia.titulo ? denuncia.titulo : ""} />
-                                            :
-                                            <Heading>
-                                                {
-                                                    title
-                                                }
-                                            </Heading>
-                                    }
-                                    {
-                                        editingTitle ?
-                                            <IconButton isLoading={isLoading} title="Clique aqui para alterar o título" icon={Confirm} style={{ height: "25px", width: "25px" }} handleClick={handleTitleChange} />
-                                            :
-                                            <IconButton title="Clique aqui para alterar o título" icon={Edit} style={{ height: "25px", width: "25px" }} handleClick={() => setEditingTitle(true)} />
-                                    }
+    
+                                    <Heading>
+                                        {title}
+                                    </Heading>
+    
                                 </div>
-
+    
                                 <div className={styles.violence_types}>
                                     {denuncia.v_domestica === 'yes' && (
                                         <TypeOfViolenceIcon violenceType="domestica" />
@@ -294,37 +217,18 @@ const DenunciaPage = () => {
                             </CardHeader>
                             <CardBody>
                                 <div className={styles.info}>
-                                    <ButtonGroup className={styles.action_buttons}>
-                                        {/* <Button colorScheme="teal">
-                                        Adicionar título
-                                    </Button> */}
-                                        <Button colorScheme="red" onClick={onOpenAddPraticante}>
-                                            Adicionar praticantes
-                                        </Button>
-                                        <Button colorScheme="purple" onClick={onOpenAddVitima}>
-                                            Adicionar vítimas
-                                        </Button>
-                                    </ButtonGroup>
-                                    <div>
-                                        <b>Nº de matrícula:</b> {denuncia.matricula}
-                                    </div>
-                                    <div>
-                                        <b>Recorrência:</b> {denuncia.recorrencia}
-                                    </div>
-                                    <div>
-                                        <b>Data de ocorrência:</b> {getBrazilianDate(denuncia.data_ocorrido)}
-                                    </div>
+    
                                     {
                                         vitimas && vitimas.length > 0 ?
                                             <div>
-                                                <b>Vítima(s):</b> {getNameFromStudents(vitimas)}
+                                                <b>Vítima(s):</b> {getNameFromStudents(vitimas)} 
                                             </div>
                                             :
                                             <div>
                                                 <b>Vítima(s):</b> Ainda não foram adicionados praticantes
                                             </div>
                                     }
-
+    
                                     {
                                         praticantes && praticantes.length > 0 ?
                                             <div>
@@ -335,14 +239,6 @@ const DenunciaPage = () => {
                                                 <b>Praticante(s):</b> Ainda não foram adicionados praticantes
                                             </div>
                                     }
-                                    <div className={styles.relato}>
-                                        <div>
-                                            <b>Relato:</b>
-                                        </div>
-                                        <div>
-                                            {denuncia.relato}
-                                        </div>
-                                    </div>
                                     {
                                         isGettingMedidas ?
                                             <>
@@ -360,7 +256,7 @@ const DenunciaPage = () => {
                                                                     active={<StepNumber />}
                                                                 />
                                                             </StepIndicator>
-
+    
                                                             <div className={styles.step_info}>
                                                                 <Box flexShrink='0'>
                                                                     <StepTitle>{step.title}</StepTitle>
@@ -370,7 +266,7 @@ const DenunciaPage = () => {
                                                                     activeStep == 0 && <div className={styles.blank}></div>
                                                                 }
                                                                 {
-                                                                    index == 0 || index == 2?
+                                                                    index == 0 || index == 2 ?
                                                                         <div className={styles.blank}></div> :
                                                                         <div className={styles.medidas}>
                                                                             {
@@ -387,11 +283,11 @@ const DenunciaPage = () => {
                                                                                     )
                                                                                 })
                                                                             }
-
+    
                                                                         </div>
                                                                 }
                                                             </div>
-
+    
                                                             <StepSeparator />
                                                         </Step>
                                                     ))}
@@ -400,37 +296,20 @@ const DenunciaPage = () => {
                                     }
                                 </div>
                             </CardBody>
-                            <CardFooter>
-                                <ButtonGroup>
-                                    <Button colorScheme="blue" leftIcon={<PlusSign width="30px" />} onClick={onOpenAddAndamento}>
-                                        Adicionar andamento
-                                    </Button>
-                                    <Button bg="pink.50"
-                                        color="white"
-                                        _hover={{ bgColor: "pink.100" }}
-                                        _active={{ bgColor: "pink.200" }}>
-                                        Marcar como resolvido
-                                    </Button>
-                                </ButtonGroup>
-                            </CardFooter>
                         </Card>
                     </div>
-
-                    <AddPraticantesModal denunciaId={denuncia.id} currentPraticantes={praticantes} onClose={onCloseAddPraticante} onOpen={onOpenAddPraticante} isOpen={isOpenAddPraticante} />
-                    <AddVitimasModal denunciaId={denuncia.id} currentVitimas={vitimas} onClose={onCloseAddVitima} onOpen={onOpenAddVitima} isOpen={isOpenAddVitima} />
-                    <AddAndamentoModal denunciaId={denuncia.id} onClose={onCloseAddAndamento} onOpen={onOpenAddAndamento} isOpen={isOpenAddAndamento} />
+    
                 </>
-            )
+            ) 
+        } else {
+            return <>
+            To carregando </>
         }
     } else {
         return (
-            <>
-                TO carregando</>
+            <NotAuthorized />
         )
     }
-
-
-
 }
 
-export default DenunciaPage;
+export default MyChildDenunciaPage;

@@ -3,43 +3,38 @@ import banner from "assets/images/wave-banner.svg";
 import styles from "./styles.module.css";
 import {
     Heading,
-    Box, 
-    Divider, 
+    Box,
+    Divider,
     Text
 } from "@chakra-ui/react";
 import { useContext, useState } from "react";
 import { ParentDashboardContext } from "context/ParentDashboardContext";
-import Notification from "./components/Notification";
-import AcompanhamentoCard from "./components/AcompanhamentoCard";
-import MyChildInformationCard from "./MyChildInformationCard";
-import AcompanhamentoInformationCard from "./AcompanhamentoInformationCard";
+import MyChildInformationCard from "./components/MyChildInformationCard";
+import { checkIfUserHasAuthorization } from "utils/checkIfUserHasAuthorization";
+import { AuthorizationType } from "enums/authorizationType";
+import NotAuthorized from "components/NotAuthorized";
 
-interface INotification {
-    type: string,
-    title: string,
-    time: string,
-    description: string, 
-    color: string 
-}
+interface Denuncia {
+	matricula: number,
+	relato: string,
+	recorrencia: string,
+	id: number,
+	body: string,
+	title: string,
+	v_fisica: "yes" | "no",
+	v_domestica: "yes" | "no",
+	v_verbal: "yes" | "no",
+	bullying: "yes" | "no",
+	assedio: "yes" | "no",
+	data_ocorrido: string,
+	pontuacao: number,
+};
 
-interface TypeOfViolence {
-    title: string,
-    color: string
-}
 
-
-interface AcompanhamentoDetails {
-    types: Array<TypeOfViolence>,
-    title: string, 
-    praticante: string,
-    vitima: string,
-    link: string 
-}
 
 const Header = () => {
 
-    const { parentDashboardState } = useContext(ParentDashboardContext);
-    console.log("parentDashboardState", parentDashboardState)
+    const [denuncias, setDenuncias] = useState();
 
     return (
         <Box className={styles.banner} style={{
@@ -47,43 +42,30 @@ const Header = () => {
             backgroundImage: `url(${banner})`,
             height: "147px"
         }}>
-            <Heading className={styles.banner_heading}> 
-                { parentDashboardState == "general" ? "" : "Título da denúncia"}
+            <Heading className={styles.banner_heading}>
+                {}
             </Heading>
             <Divider orientation="horizontal" />
-            <Text fontSize="lg" className={styles.banner_text}> 
-                { parentDashboardState == "general" ? "" : "Aqui deve ficar o nome do meu filho."} 
+            <Text fontSize="lg" className={styles.banner_text}>
+                {""}
             </Text>
         </Box>
-        
+
     )
 }
 
-const Display = () => {
 
-    const { parentDashboardState } = useContext(ParentDashboardContext);
 
-    if (parentDashboardState == "general") {
+const MyChildPage = () => {
+
+    if (checkIfUserHasAuthorization(AuthorizationType.Parent)) {
         return (
             <MyChildInformationCard />
         )
     } else {
-        return (
-            <AcompanhamentoInformationCard />
-        )
+        return <NotAuthorized />
     }
 
-}
-
-const MyChildPage = () => {
-
-    return (
-        <>
-            <Header />
-            <Display />
-        </>
-    )
-    
 }
 
 export default MyChildPage;

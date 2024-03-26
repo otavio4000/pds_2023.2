@@ -11,6 +11,7 @@
     display: flex;
     color: white;
     gap: 10px;
+    flex-wrap: wrap;
 }
 
 .people {
