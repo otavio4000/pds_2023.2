@@ -50,6 +50,7 @@ const TokenVerifyModal = (props: {
     const onSubmit = async (data: any) => {
 
         const { token } = data; 
+
         
         // Verifica o token 
         // token válido = 200 / token já foi usado ou não existe: 404
@@ -132,6 +133,7 @@ const TokenVerifyModal = (props: {
         }
 
     }
+
 
     return (
         <Modal isOpen={isOpen} onClose={onClose} size="md">

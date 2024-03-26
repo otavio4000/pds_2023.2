@@ -52,6 +52,13 @@ const theme = extendTheme({
               bg: 'transparent',
               padding: "0px 0px 0px 0px",
               width: '30px'
+            },
+            pink: {
+              padding: "10px 47px 10px 47px",
+              color: "white.50",
+              bg: "pink.50",
+              _hover: { bgColor: "pink.100" },
+              _active: { bgColor: "pink.200" }
             }
         }
     },
