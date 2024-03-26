@@ -1,3 +1,4 @@
+import LoadingSkeleton from "components/LoadingSkeleton";
 import styles from "./styles.module.css"
 import { 
     Card,
@@ -178,9 +179,7 @@ const AcompanhamentoCard = (props: {
     } else {
 
         return (
-            <>
-                To carregando
-            </>
+            <LoadingSkeleton justifyContent="center" width={130} height={100}/>
         )
     }
 }

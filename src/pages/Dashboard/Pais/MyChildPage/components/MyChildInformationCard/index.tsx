@@ -94,7 +94,7 @@ const MyChildInformationCard = () => {
                                         <AcompanhamentoCard acompanhamento={acompanhamento} key={acompanhamento.title} />
                                     )
                                 }) : 
-                                <Heading> Não existem denúncias que envolvam o seu filho. </Heading>
+                                <Heading size="md"> Não existem denúncias que envolvam o seu filho. </Heading>
 
                             }
                         </div>
