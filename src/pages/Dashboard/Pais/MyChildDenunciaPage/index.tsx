@@ -226,7 +226,7 @@ const MyChildDenunciaPage = () => {
                                             </div>
                                             :
                                             <div>
-                                                <b>Vítima(s):</b> Ainda não foram adicionados praticantes
+                                                <b>Vítima(s):</b> Ainda não foram adicionados vítimas
                                             </div>
                                     }
     
