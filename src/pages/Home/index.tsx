@@ -15,7 +15,7 @@ const Home = () => {
                     <Logo className={styles.logo} />
                 </div>
                 <p>
-                    Lorem ipsum dolor sit amet. Qui dignissimos corrupti vel deserunt error et laudantium reiciendis ea dolorem provident ut tempora deleniti aut velit accusamus et magni blanditiis. Ut voluptatibus nulla ut cumque voluptates At eaque quae eos maxime.
+                    Promovendo um ambiente escolar seguro e acolhedor através da inovação e da colaboração: bem-vindo ao VigiAluno.
                 </p>
                 <ButtonGroup className={styles.container_buttons} variant="solid" size="md" spacing="6">                
                     <Link to="/login"> 
